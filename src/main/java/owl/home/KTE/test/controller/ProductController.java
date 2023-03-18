@@ -2,7 +2,6 @@ package owl.home.KTE.test.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +12,8 @@ import owl.home.KTE.test.model.util.TotalPriceShopingListRequest;
 import owl.home.KTE.test.model.util.TotalPriceShopingListResponse;
 import owl.home.KTE.test.service.Interface.ProductService;
 
+import javax.servlet.http.HttpServletRequest;
+import java.net.http.HttpRequest;
 import java.util.List;
 
 
@@ -35,7 +36,7 @@ public class ProductController {
     }
 
     @GetMapping("/total-price")
-    ResponseEntity<TotalPriceShopingListResponse> totalPriceShopingLists(HttpRequest request){
+    ResponseEntity<TotalPriceShopingListResponse> totalPriceShopingLists(HttpServletRequest request){
         return ResponseEntity.ok(service.totalPriceResponse(request));
     }
 
@@ -62,5 +63,12 @@ public class ProductController {
             @RequestBody List<TotalPriceShopingListRequest> shopingList
     ){
         return ResponseEntity.ok(service.generateCheck(clientId, totalPrice, shopingList));
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleException(IllegalArgumentException exception) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(exception.getMessage());
     }
 }

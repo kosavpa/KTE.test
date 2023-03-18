@@ -1,9 +1,7 @@
 package owl.home.KTE.test.model.product;
 
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,7 +11,7 @@ import java.io.Serializable;
 @Table(
         name = "product_for_check",
         uniqueConstraints = @UniqueConstraint(columnNames = {"product_id", "check_number"}))
-@Getter @Setter @Builder
+@Getter @Setter @Builder @EqualsAndHashCode(exclude = "id")  @AllArgsConstructor @NoArgsConstructor
 public class ProductForCheck implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

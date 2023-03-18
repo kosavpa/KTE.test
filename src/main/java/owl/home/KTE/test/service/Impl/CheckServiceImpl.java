@@ -19,7 +19,7 @@ public class CheckServiceImpl implements CheckService {
     @Override
     public Check checkById(long checkId) {
         return repository.findById(checkId).orElseThrow(
-                () -> new NoSuchElementException("Check with this id not found!")
+                () -> new IllegalArgumentException("Check with this id not found!")
         );
     }
 

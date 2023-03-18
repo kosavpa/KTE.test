@@ -1,7 +1,7 @@
 package owl.home.KTE.test.service.util;
 
 
-import org.springframework.http.HttpRequest;
+import owl.home.KTE.test.model.client.Client;
 import owl.home.KTE.test.model.product.Product;
 import owl.home.KTE.test.model.product.ProductForCheck;
 import owl.home.KTE.test.model.product.Rating;
@@ -9,6 +9,7 @@ import owl.home.KTE.test.model.util.TotalPriceShopingListRequest;
 import owl.home.KTE.test.model.util.TotalPriceShopingListResponse;
 import owl.home.KTE.test.service.Interface.ProductService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
@@ -37,46 +38,24 @@ public class ProductUtil {
         return distributionStar.entrySet().stream().flatMapToDouble(e -> DoubleStream.of(e.getValue())).average().orElse(0.0d);
     }
 
-    public static List<TotalPriceShopingListRequest> totalPriseRequestList(String[] paramsArray){
+    public static List<TotalPriceShopingListRequest> totalPriseRequestList(HttpServletRequest request){
+        Map<String, String[]> paramMap = request.getParameterMap();
+        String[] idsProducts = paramMap.get("id");
+        String[] amountsProducts = paramMap.get("amount");
+
+        if (idsProducts.length != amountsProducts.length)
+            throw new IllegalArgumentException("Amount 'id' params no equals 'amount' params!");
+
         List<TotalPriceShopingListRequest> totalPriseRequestList = new LinkedList<>();
-
-        boolean revers = false;
-        if(paramsArray[0].contains("amount"))
-            revers = true;
-
-        for(int i = 0; i < paramsArray.length; i++){
-            if (revers){
-                totalPriseRequestList.add(TotalPriceShopingListRequest
-                        .builder()
-                                .amount(Integer.parseInt(paramsArray[i]
-                                        .split("=")[1]))
-                                .productId(Long.parseLong(paramsArray[++i]
-                                        .split("=")[1]))
-                                .build());
-            } else {
-                totalPriseRequestList.add(TotalPriceShopingListRequest
-                        .builder()
-                        .productId(Long.parseLong(paramsArray[i]
-                                .split("=")[1]))
-                        .amount(Integer.parseInt(paramsArray[++i]
-                                .split("=")[1]))
-                        .build());
-            }
+        for(int i = 0; i < idsProducts.length; i++){
+            totalPriseRequestList.add(TotalPriceShopingListRequest
+                    .builder()
+                    .productId(Long.parseLong(idsProducts[i]))
+                    .amount(Integer.parseInt(amountsProducts[i]))
+                    .build());
         }
 
         return totalPriseRequestList;
-    }
-
-    public static String[] uriParamsArray(HttpRequest request){
-        String[] uriParamsInRow = request.getURI().getPath().split("\\?");
-        if (uriParamsInRow.length != 2)
-            throw new IllegalArgumentException("Bad uri request!");
-
-        String[] separatedUriParams = uriParamsInRow[1].split("&");
-        if(separatedUriParams.length % 2 != 0)
-            throw new IllegalArgumentException("Bad uri request, identificator product and amount must be sent in pairs!");
-
-        return separatedUriParams;
     }
 
     public static double priceWithDiscountAndAmount(Product product, int productAmount){
@@ -86,7 +65,7 @@ public class ProductUtil {
         return ((productPrice - productPrice * productDiscount / 100) * productAmount);
     }
 
-    public static TotalPriceShopingListResponse totalPriceProductResponseFromRequestList(
+    public static TotalPriceShopingListResponse totalPriceProductResponseFromRequestShopingList(
             List<TotalPriceShopingListRequest> requestList,
             ProductService service){
 
@@ -95,11 +74,11 @@ public class ProductUtil {
                 .totalPrice(
                         requestList
                                 .stream()
-                                .flatMapToDouble(tppr ->
+                                .flatMapToDouble(tpr ->
                                         DoubleStream.of(
                                                 priceWithDiscountAndAmount(
-                                                        service.productById(tppr.getProductId()),
-                                                        tppr.getAmount())))
+                                                        service.productById(tpr.getProductId()),
+                                                        tpr.getAmount())))
 //                                В копейках
                                 .sum() * 100)
                 .carrensy(Carrensy.RUB)
@@ -135,5 +114,32 @@ public class ProductUtil {
                             .build();
                 })
                 .collect(Collectors.toSet());
+    }
+
+    public static double priceWithClientDiscount(Client client, Set<ProductForCheck> productsForCheck){
+        int productCount = productsForCheck
+                .stream()
+                .mapToInt(ProductForCheck::getAmountProduct).sum();
+
+        int clientDiscount = productCount >= 5 ?
+                (client.getPersonalDiscount2() > 0 ? client.getPersonalDiscount2() : client.getPersonalDiscount1()):
+                client.getPersonalDiscount1();
+
+        productsForCheck
+                .forEach(productForCheck -> {
+                    int finalProductDiscount = productForCheck.getSumDiscount() + clientDiscount;
+                    if(finalProductDiscount > 18)
+                        finalProductDiscount = 18;
+
+                    productForCheck.setSumDiscount(finalProductDiscount);
+                });
+
+        return productsForCheck
+                .stream()
+                .mapToDouble(productForCheck ->
+                        priceWithDiscountAndAmount(
+                                productForCheck.getProduct(),
+                                productForCheck.getAmountProduct()))
+                .sum();
     }
 }

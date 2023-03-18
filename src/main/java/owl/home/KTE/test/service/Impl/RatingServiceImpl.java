@@ -21,7 +21,7 @@ public class RatingServiceImpl implements RatingService {
     @Override
     public Rating getRatingById(long ratingId) {
         return repository.findById(ratingId).orElseThrow(
-                () -> new NoSuchElementException("Rating with this id not found!")
+                () -> new IllegalArgumentException("Rating with this id not found!")
         );
     }
 

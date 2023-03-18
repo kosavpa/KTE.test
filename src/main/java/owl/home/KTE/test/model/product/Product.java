@@ -1,9 +1,7 @@
 package owl.home.KTE.test.model.product;
 
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,7 +9,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "product_table")
-@Getter @Setter @Builder
+@Getter @Setter @Builder @AllArgsConstructor @NoArgsConstructor
 public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

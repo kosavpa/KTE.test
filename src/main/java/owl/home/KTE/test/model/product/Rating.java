@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Table(
         name = "rating_table",
         uniqueConstraints = @UniqueConstraint(columnNames = {"product_id","client_id"}))
-@Getter @Setter @Builder @EqualsAndHashCode(exclude = "id")
+@Getter @Setter @Builder @EqualsAndHashCode(exclude = "id") @AllArgsConstructor @NoArgsConstructor
 public class Rating implements Serializable {
     @Id
     @Column(name = "id")

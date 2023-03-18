@@ -2,7 +2,6 @@ package owl.home.KTE.test.service.Impl;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import owl.home.KTE.test.model.check.Check;
@@ -17,6 +16,7 @@ import owl.home.KTE.test.model.util.TotalPriceShopingListResponse;
 import owl.home.KTE.test.repo.ProductRepository;
 import owl.home.KTE.test.service.Interface.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 import static owl.home.KTE.test.service.util.ProductUtil.*;
@@ -39,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product productById(long productId) {
         return productRepository.findById(productId).orElseThrow(
-                () -> new NoSuchElementException("Product with this id not found!")
+                () -> new IllegalArgumentException("Product with this id not found!")
         );
     }
 
@@ -65,7 +65,7 @@ public class ProductServiceImpl implements ProductService {
         Product product = productById(productId);
         Client client = clientService.clientById(clientId);
         Rating rating = ratingService.findByProductIdAndClientId(productId, clientId).orElseThrow(
-                () -> new NoSuchElementException("Rating with this id not found!")
+                () -> new IllegalArgumentException("Rating with this id not found!")
         );
         List<Rating> ratingsThisProduct = ratingService.findByProductId(productId);
 
@@ -83,11 +83,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public TotalPriceShopingListResponse totalPriceResponse(HttpRequest request) {
-        String[] uriParams = uriParamsArray(request);
-        List<TotalPriceShopingListRequest> totalPriceShopingListRequests = totalPriseRequestList(uriParams);
+    public TotalPriceShopingListResponse totalPriceResponse(HttpServletRequest request) {
+        List<TotalPriceShopingListRequest> totalPriceShopingListRequests = totalPriseRequestList(request);
 
-        return totalPriceProductResponseFromRequestList(totalPriceShopingListRequests, this);
+        return totalPriceProductResponseFromRequestShopingList(totalPriceShopingListRequests, this);
     }
 
     @Override
@@ -133,21 +132,26 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public long generateCheck(long clientId, double totalPrice, List<TotalPriceShopingListRequest> shopingList) {
-        TotalPriceShopingListResponse totalPriceShopingList = totalPriceProductResponseFromRequestList(shopingList, this);
+        TotalPriceShopingListResponse totalPriceShopingList = totalPriceProductResponseFromRequestShopingList(shopingList, this);
+        double totalPriceExcludeClientDiscount = totalPriceShopingList.getTotalPrice();
 
-        if (totalPriceShopingList.getTotalPrice() != totalPrice)
+        if (totalPriceExcludeClientDiscount != totalPrice)
             throw new IllegalArgumentException("Bad total price in request!");
 
         Set<ProductForCheck> productsForCheck = productForCheckListFromTotalPriceShopingListRequest(shopingList, this);
         Client client = clientService.clientById(clientId);
+        double priceWhithClientDiscount = priceWithClientDiscount(client, productsForCheck);
+
         Check check = Check
                 .builder()
                 .client(client)
                 .date(Calendar.getInstance().getTime())
                 .shoppingList(productsForCheck)
+                .finalPrice(priceWhithClientDiscount)
                 .build();
 
         check = checkService.saveCheck(check);
+
         return check.getNumber();
     }
 }

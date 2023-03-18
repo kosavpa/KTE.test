@@ -28,7 +28,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public Client clientById(Long clientId) {
         return repository.findById(clientId).orElseThrow(
-                () -> new NoSuchElementException("Client with this id not found!")
+                () -> new IllegalArgumentException("Client with this id not found!")
         );
     }
 
