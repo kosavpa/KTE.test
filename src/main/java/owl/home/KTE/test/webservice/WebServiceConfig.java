@@ -33,7 +33,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 
         wsdl11Definition.setPortTypeName("WSPort");
         wsdl11Definition.setLocationUri("/ws");
-        wsdl11Definition.setTargetNamespace("http://KTE-web-service/");
+        wsdl11Definition.setTargetNamespace("http://kte.test-web-service");
         wsdl11Definition.setSchema(kteschema);
 
         return wsdl11Definition;

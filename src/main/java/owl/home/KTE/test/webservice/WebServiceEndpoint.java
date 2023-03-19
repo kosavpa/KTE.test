@@ -27,9 +27,9 @@ public class WebServiceEndpoint {
     ClientService clientService;
     @Autowired
     private ProductService productService;
-    private static final String NAMESPACE_URI = "http://KTE-web-service/";
+    private static final String NAMESPACE_URI = "http://kte.test-web-service";
 
-    @PayloadRoot(namespace = NAMESPACE_URI + "client/all-client", localPart = "getAllClientRequest")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getAllClient")
     @ResponsePayload
     public GetAllClientResponse getCountry() {
         List<Client> clients = clientService.allClient();
@@ -43,7 +43,7 @@ public class WebServiceEndpoint {
         return clientResponse;
     }
 
-    @PayloadRoot(namespace = NAMESPACE_URI + "client/update-discount", localPart = "updateClientDiscountRequest")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "updateClientDiscount")
     @ResponsePayload
     public UpdateClientDiscountResponse updateClientDiscount(@RequestPayload UpdateClientDiscountRequest request) {
         clientService.updateDiscounts(request.getClientId(), request.getPersonalDiscount1(), request.getPersonalDiscount2());
@@ -55,7 +55,7 @@ public class WebServiceEndpoint {
         return response;
     }
 
-    @PayloadRoot(namespace = NAMESPACE_URI + "client/statistic", localPart = "getClientStatisticRequest")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getClientStatistic")
     @ResponsePayload
     public GetClientStatisticResponse statisticClient(@RequestPayload GetClientStatisticRequest request) {
         StatisticClientResponse statisticClient = clientService.statisticClient(request.getClientId());
@@ -66,7 +66,7 @@ public class WebServiceEndpoint {
         return response;
     }
 
-    @PayloadRoot(namespace = NAMESPACE_URI + "product/all-product", localPart = "getAllProductRequest")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getAllProduct")
     @ResponsePayload
     public GetAllProductResponse statisticClient() {
         List<Product> products = productService.allProduct();
@@ -79,7 +79,7 @@ public class WebServiceEndpoint {
         return response;
     }
 
-    @PayloadRoot(namespace = NAMESPACE_URI + "product/additional-product", localPart = "getAdditionalProductInfoRequest")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getAdditionalProductInfo")
     @ResponsePayload
     public GetAdditionalProductInfoResponse additionalProduct(@RequestPayload GetAdditionalProductInfoRequest request) {
         AdditionalProductInfo productInfo = productService.additionalProductInfo(request.getProductId(), request.getClientId());
@@ -90,7 +90,7 @@ public class WebServiceEndpoint {
         return response;
     }
 
-    @PayloadRoot(namespace = NAMESPACE_URI + "product/total-price", localPart = "getTotalPriceRequest")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getTotalPrice")
     @ResponsePayload
     public GetTotalPriceResponse totalPrice(@RequestPayload GetTotalPriceRequest request) {
         GetTotalPriceResponse response = new GetTotalPriceResponse();
@@ -104,7 +104,7 @@ public class WebServiceEndpoint {
         return response;
     }
 
-    @PayloadRoot(namespace = NAMESPACE_URI + "product/create-feedback", localPart = "createFeedbackProductRequest")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "createFeedbackProduct")
     @ResponsePayload
     public CreateFeedbackProductResponce createFeedback(@RequestPayload CreateFeedbackProductRequest request) {
         productService.saveFeedbackProduct(request.getProductId(), request.getClientId(), request.getAmountStar());
@@ -116,7 +116,7 @@ public class WebServiceEndpoint {
         return responce;
     }
 
-    @PayloadRoot(namespace = NAMESPACE_URI + "product/statistic", localPart = "getProductStatisticRequest")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getProductStatistic")
     @ResponsePayload
     public GetProductStatisticResponse createFeedback(@RequestPayload GetProductStatisticRequest request) {
         StatisticProductResponse statisticProductResponse = productService.statisticProduct(request.getProductId());
@@ -128,7 +128,7 @@ public class WebServiceEndpoint {
         return response;
     }
 
-    @PayloadRoot(namespace = NAMESPACE_URI + "product/generate-check", localPart = "createCheckRequest")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "createCheck")
     @ResponsePayload
     public CreateCheckResponse createCheck(@RequestPayload CreateCheckRequest request) {
         List<TotalPriceShopingListRequest> shopingListRequests = mapWsRequestTototalPriceShopingListRequests(request.getTotalPriceRequestList());
