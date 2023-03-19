@@ -1,0 +1,189 @@
+databaseChangeLog:
+- changeSet:
+    id: 1677312669525-1
+    author: kosav (generated)
+    preConditions:
+        onFail: MARK_RAN
+        not:
+            tableExists:
+                schemaName: KTEtest
+                tableName: check_table
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            name: anons
+            type: VARCHAR(255)
+        - column:
+            name: full_text
+            type: LONGTEXT
+        - column:
+            name: date
+            type: date
+        - column:
+            name: title
+            type: VARCHAR(255)
+        - column:
+            name: publication_date
+            type: date
+        - column:
+            name: image
+            type: MEDIUMTEXT
+        tableName: blog_article
+- changeSet:
+    id: 1677312669525-2
+    author: kosav (generated)
+    preConditions:
+        onFail: MARK_RAN
+        not:
+            tableExists:
+                schemaName: fitness_blog
+                tableName: blog_user
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            name: password
+            type: VARCHAR(255)
+        - column:
+            name: role
+            type: VARCHAR(10)
+        - column:
+            name: username
+            type: VARCHAR(255)
+        tableName: blog_user
+- changeSet:
+    id: 1677312669525-3
+    author: kosav (generated)
+    preConditions:
+        onFail: MARK_RAN
+        not:
+            tableExists:
+                schemaName: fitness_blog
+                tableName: hibernate_sequence
+    changes:
+    - createTable:
+        columns:
+        - column:
+            name: next_val
+            type: BIGINT
+        tableName: hibernate_sequence
+- changeSet:
+    id: 1677312669525-4
+    author: kosav (generated)
+    preConditions:
+        onFail: MARK_RAN
+        not:
+            rowCount:
+                expectedRows: 29
+                tableName: blog_article
+    changes:
+    - loadData:
+        columns:
+        - column:
+            header: id
+            name: id
+            type: NUMERIC
+        - column:
+            header: anons
+            name: anons
+            type: STRING
+        - column:
+            header: full_text
+            name: full_text
+            type: STRING
+        - column:
+            header: date
+            name: date
+            type: skip
+        - column:
+            header: title
+            name: title
+            type: STRING
+        - column:
+            header: publication_date
+            name: publication_date
+            type: DATE
+        - column:
+            header: image
+            name: image
+            type: STRING
+        commentLineStartsWith: '#'
+        encoding: UTF-8
+        relativeToChangelogFile: true
+        file: data/check_table.csv
+        quotchar: '"'
+        separator: ','
+        tableName: blog_article
+- changeSet:
+    id: 1677312669525-5
+    author: kosav (generated)
+    preConditions:
+        onFail: MARK_RAN
+        not:
+            rowCount:
+                expectedRows: 1
+                tableName: blog_user
+    changes:
+    - loadData:
+        columns:
+        - column:
+            header: id
+            name: id
+            type: NUMERIC
+        - column:
+            header: password
+            name: password
+            type: STRING
+        - column:
+            header: role
+            name: role
+            type: STRING
+        - column:
+            header: username
+            name: username
+            type: STRING
+        commentLineStartsWith: '#'
+        encoding: UTF-8
+        relativeToChangelogFile: true
+        file: data/client_table.csv
+        quotchar: '"'
+        separator: ','
+        tableName: blog_user
+- changeSet:
+    id: 1677312669525-6
+    author: kosav (generated)
+    preConditions:
+        onFail: MARK_RAN
+        not:
+            rowCount:
+                expectedRows: 1
+                tableName: hibernate_sequence
+    changes:
+    - loadData:
+        columns:
+        - column:
+            header: next_val
+            name: next_val
+            type: NUMERIC
+        commentLineStartsWith: '#'
+        encoding: UTF-8
+        relativeToChangelogFile: true
+        file: data/hibernate_sequence.csv
+        quotchar: '"'
+        separator: ','
+        tableName: hibernate_sequence
+

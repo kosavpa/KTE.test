@@ -17,8 +17,8 @@ import java.util.Set;
 public class Check implements Serializable {
     @Id
     @Column(name = "number")
-    @SequenceGenerator(sequenceName = "KTEtest", allocationSize = 1, name = "KTEtestSeq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "KTEtestSeq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ktetest_seq")
+    @SequenceGenerator(sequenceName = "ktetest_seq", allocationSize = 1, name = "ktetest_seq", initialValue = 100)
     private long number;
     @Temporal(TemporalType.DATE)
     @Column(name = "date")

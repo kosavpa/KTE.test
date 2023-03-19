@@ -16,50 +16,50 @@ public class MarketApplication {
 		SpringApplication.run(MarketApplication.class, args);
 	}
 
-	@Bean
-	public CommandLineRunner dataLoader(ClientService clientService, ProductService productService){
-		return runner -> {
-			clientService.saveClient(Client
-					.builder()
-					.name("Zosya")
-					.personalDiscount1(0)
-					.personalDiscount2(8)
-					.build());
-
-			clientService.saveClient(Client
-					.builder()
-					.name("Rijiy")
-					.personalDiscount1(6)
-					.personalDiscount2(19)
-					.build());
-
-			productService.saveProduct(Product
-					.builder()
-					.about("Best cat's laser, is wnderfull playing toy from fluffy kitty!")
-					.name("Bluster gun")
-					.price(999)
-					.build());
-
-			productService.saveProduct(Product
-					.builder()
-					.about("Any turtle will be happy on this road.")
-					.name("Road of obstacles")
-					.price(763)
-					.build());
-
-			productService.saveProduct(Product
-					.builder()
-					.about("Red ball turtles will not be left without attention!")
-					.name("Sirius")
-					.price(175)
-					.build());
-
-			productService.saveProduct(Product
-					.builder()
-					.about("This is mous not indistinguishable from the real.")
-					.name("True mouse")
-					.price(612)
-					.build());
-		};
-	}
+//	@Bean
+//	public CommandLineRunner dataLoader(ClientService clientService, ProductService productService){
+//		return runner -> {
+//			clientService.saveClient(Client
+//					.builder()
+//					.name("Zosya")
+//					.personalDiscount1(0)
+//					.personalDiscount2(8)
+//					.build());
+//
+//			clientService.saveClient(Client
+//					.builder()
+//					.name("Rijiy")
+//					.personalDiscount1(6)
+//					.personalDiscount2(19)
+//					.build());
+//
+//			productService.saveProduct(Product
+//					.builder()
+//					.about("Best cat's laser, is wnderfull playing toy from fluffy kitty!")
+//					.name("Bluster gun")
+//					.price(999)
+//					.build());
+//
+//			productService.saveProduct(Product
+//					.builder()
+//					.about("Any turtle will be happy on this road.")
+//					.name("Road of obstacles")
+//					.price(763)
+//					.build());
+//
+//			productService.saveProduct(Product
+//					.builder()
+//					.about("Red ball turtles will not be left without attention!")
+//					.name("Sirius")
+//					.price(175)
+//					.build());
+//
+//			productService.saveProduct(Product
+//					.builder()
+//					.about("This is mous not indistinguishable from the real.")
+//					.name("True mouse")
+//					.price(612)
+//					.build());
+//		};
+//	}
 }
