@@ -1,50 +1,13 @@
 databaseChangeLog:
 - changeSet:
-    id: 1677312669525-1
+    id: 1679220211052-1
     author: kosav (generated)
     preConditions:
         onFail: MARK_RAN
         not:
             tableExists:
-                schemaName: KTEtest
-                tableName: check_table
-    changes:
-    - createTable:
-        columns:
-        - column:
-            constraints:
-              nullable: false
-              primaryKey: true
-            name: id
-            type: BIGINT
-        - column:
-            name: anons
-            type: VARCHAR(255)
-        - column:
-            name: full_text
-            type: LONGTEXT
-        - column:
-            name: date
-            type: date
-        - column:
-            name: title
-            type: VARCHAR(255)
-        - column:
-            name: publication_date
-            type: date
-        - column:
-            name: image
-            type: MEDIUMTEXT
-        tableName: blog_article
-- changeSet:
-    id: 1677312669525-2
-    author: kosav (generated)
-    preConditions:
-        onFail: MARK_RAN
-        not:
-            tableExists:
-                schemaName: fitness_blog
-                tableName: blog_user
+                schemaName: public
+                tableName: client_table
     changes:
     - createTable:
         columns:
@@ -53,137 +16,404 @@ databaseChangeLog:
             constraints:
               nullable: false
               primaryKey: true
-            name: id
+              primaryKeyName: client_table_pkey
+            name: client_id
+            startWith: 3
             type: BIGINT
         - column:
-            name: password
+            name: client_name
             type: VARCHAR(255)
         - column:
-            name: role
-            type: VARCHAR(10)
+            name: personal_discount1
+            type: INTEGER
         - column:
-            name: username
-            type: VARCHAR(255)
-        tableName: blog_user
+            name: personal_discount2
+            type: INTEGER
+        tableName: client_table
 - changeSet:
-    id: 1677312669525-3
-    author: kosav (generated)
-    preConditions:
-        onFail: MARK_RAN
-        not:
-            tableExists:
-                schemaName: fitness_blog
-                tableName: hibernate_sequence
-    changes:
-    - createTable:
-        columns:
-        - column:
-            name: next_val
-            type: BIGINT
-        tableName: hibernate_sequence
-- changeSet:
-    id: 1677312669525-4
+    id: 1679220211052-2
     author: kosav (generated)
     preConditions:
         onFail: MARK_RAN
         not:
             rowCount:
-                expectedRows: 29
-                tableName: blog_article
+                expectedRows: 2
+                tableName: client_table
     changes:
     - loadData:
         columns:
         - column:
-            header: id
-            name: id
+            header: client_id
+            name: client_id
             type: NUMERIC
         - column:
-            header: anons
-            name: anons
+            header: client_name
+            name: client_name
             type: STRING
         - column:
-            header: full_text
-            name: full_text
-            type: STRING
-        - column:
-            header: date
-            name: date
-            type: skip
-        - column:
-            header: title
-            name: title
-            type: STRING
-        - column:
-            header: publication_date
-            name: publication_date
-            type: DATE
-        - column:
-            header: image
-            name: image
-            type: STRING
-        commentLineStartsWith: '#'
-        encoding: UTF-8
-        relativeToChangelogFile: true
-        file: data/check_table.csv
-        quotchar: '"'
-        separator: ','
-        tableName: blog_article
-- changeSet:
-    id: 1677312669525-5
-    author: kosav (generated)
-    preConditions:
-        onFail: MARK_RAN
-        not:
-            rowCount:
-                expectedRows: 1
-                tableName: blog_user
-    changes:
-    - loadData:
-        columns:
-        - column:
-            header: id
-            name: id
+            header: personal_discount1
+            name: personal_discount1
             type: NUMERIC
         - column:
-            header: password
-            name: password
-            type: STRING
-        - column:
-            header: role
-            name: role
-            type: STRING
-        - column:
-            header: username
-            name: username
-            type: STRING
+            header: personal_discount2
+            name: personal_discount2
+            type: NUMERIC
         commentLineStartsWith: '#'
         encoding: UTF-8
         relativeToChangelogFile: true
         file: data/client_table.csv
         quotchar: '"'
         separator: ','
-        tableName: blog_user
+        tableName: client_table
 - changeSet:
-    id: 1677312669525-6
+    id: 1679220211052-3
+    author: kosav (generated)
+    preConditions:
+        onFail: MARK_RAN
+        not:
+            tableExists:
+                schemaName: public
+                tableName: product_for_check
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: product_for_check_pkey
+            name: id
+            startWith: 5
+            type: BIGINT
+        - column:
+            name: amount_product
+            type: INTEGER
+        - column:
+            name: sum_discount
+            type: INTEGER
+        - column:
+            name: product_id
+            type: BIGINT
+        - column:
+            name: check_number
+            type: BIGINT
+        tableName: product_for_check
+- changeSet:
+    id: 1679220211052-5
+    author: kosav (generated)
+    preConditions:
+        onFail: MARK_RAN
+        not:
+            tableExists:
+                schemaName: public
+                tableName: product_table
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: product_table_pkey
+            name: product_id
+            startWith: 5
+            type: BIGINT
+        - column:
+            name: about_product
+            type: VARCHAR(255)
+        - column:
+            name: product_discount
+            type: INTEGER
+        - column:
+            name: product_name
+            type: VARCHAR(255)
+        - column:
+            name: product_price
+            type: FLOAT8
+        tableName: product_table
+- changeSet:
+    id: 1679220211052-6
     author: kosav (generated)
     preConditions:
         onFail: MARK_RAN
         not:
             rowCount:
-                expectedRows: 1
-                tableName: hibernate_sequence
+                expectedRows: 4
+                tableName: product_table
     changes:
     - loadData:
         columns:
         - column:
-            header: next_val
-            name: next_val
+            header: product_id
+            name: product_id
+            type: NUMERIC
+        - column:
+            header: about_product
+            name: about_product
+            type: STRING
+        - column:
+            header: product_discount
+            name: product_discount
+            type: NUMERIC
+        - column:
+            header: product_name
+            name: product_name
+            type: STRING
+        - column:
+            header: product_price
+            name: product_price
             type: NUMERIC
         commentLineStartsWith: '#'
         encoding: UTF-8
         relativeToChangelogFile: true
-        file: data/hibernate_sequence.csv
+        file: data/product_table.csv
         quotchar: '"'
         separator: ','
-        tableName: hibernate_sequence
-
+        tableName: product_table
+- changeSet:
+    id: 1679220211052-7
+    author: kosav (generated)
+    preConditions:
+        onFail: MARK_RAN
+        not:
+            tableExists:
+                schemaName: public
+                tableName: rating_table
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: rating_table_pkey
+            name: id
+            type: BIGINT
+        - column:
+            name: amount_star
+            type: INTEGER
+        - column:
+            constraints:
+              nullable: false
+            name: client_id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: product_id
+            type: BIGINT
+        tableName: rating_table
+- changeSet:
+    id: 1679220211052-8
+    author: kosav (generated)
+    preConditions:
+        onFail: MARK_RAN
+        not:
+            uniqueConstraintExists:
+                tableName: product_for_check
+                constraintName: uksjjpyh2611o1ra06b3c5rw8rl
+    changes:
+    - addUniqueConstraint:
+        columnNames: product_id, check_number
+        constraintName: uksjjpyh2611o1ra06b3c5rw8rl
+        tableName: product_for_check
+- changeSet:
+    id: 1679220211052-9
+    author: kosav (generated)
+    preConditions:
+        onFail: MARK_RAN
+        not:
+            uniqueConstraintExists:
+                constraintName: uk4axbl3xlb965aikvenlqn1ft7
+                tableName: rating_table
+    changes:
+    - addUniqueConstraint:
+        columnNames: product_id, client_id
+        constraintName: uk4axbl3xlb965aikvenlqn1ft7
+        tableName: rating_table
+- changeSet:
+    id: 1679220211052-10
+    author: kosav (generated)
+    preConditions:
+        onFail: MARK_RAN
+        not:
+            uniqueConstraintExists:
+                constraintName: uk_80pxt3ioy5drhsxvfwwna5mai
+                tableName: rating_table
+    changes:
+    - addUniqueConstraint:
+        columnNames: client_id
+        constraintName: uk_80pxt3ioy5drhsxvfwwna5mai
+        tableName: rating_table
+- changeSet:
+    id: 1679220211052-11
+    author: kosav (generated)
+    preConditions:
+        onFail: MARK_RAN
+        not:
+            uniqueConstraintExists:
+                constraintName: uk_9washdlbm951iw6ayur1hrte3
+                tableName: rating_table
+    changes:
+    - addUniqueConstraint:
+        columnNames: product_id
+        constraintName: uk_9washdlbm951iw6ayur1hrte3
+        tableName: rating_table
+- changeSet:
+    id: 1679220211052-12
+    author: kosav (generated)
+    preConditions:
+        onFail: MARK_RAN
+        not:
+            sequenceExists:
+                schemaName: public
+                sequenceName: ktetest_seq
+    changes:
+    - createSequence:
+        cacheSize: 1
+        cycle: false
+        dataType: bigint
+        incrementBy: 1
+        maxValue: 9223372036854775807
+        minValue: 100
+        sequenceName: ktetest_seq
+        startValue: 100
+- changeSet:
+    id: 1679220211052-13
+    author: kosav (generated)
+    preConditions:
+        onFail: MARK_RAN
+        not:
+            tableExists:
+                schemaName: public
+                tableName: check_table
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: check_table_pkey
+            name: number
+            type: BIGINT
+        - column:
+            name: date
+            type: date
+        - column:
+            name: final_price
+            type: FLOAT8
+        - column:
+            constraints:
+              nullable: false
+            name: client_id
+            type: BIGINT
+        tableName: check_table
+- changeSet:
+    id: 1679220211052-19
+    author: kosav (generated)
+    preConditions:
+        onFail: MARK_RAN
+        not:
+            foreignKeyConstraintExists:
+                foreignKeyName: fk11imew2oqanw7ntvm0yugqbyr
+                foreignKeyTableName: rating_table
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: product_id
+        baseTableName: rating_table
+        constraintName: fk11imew2oqanw7ntvm0yugqbyr
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: product_id
+        referencedTableName: product_table
+        validate: true
+- changeSet:
+    id: 1679220211052-20
+    author: kosav (generated)
+    preConditions:
+        onFail: MARK_RAN
+        not:
+            foreignKeyConstraintExists:
+                foreignKeyName: fkah52doucxxbj36upfm4tapi2
+                foreignKeyTableName: rating_table
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: client_id
+        baseTableName: rating_table
+        constraintName: fkah52doucxxbj36upfm4tapi2
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: client_id
+        referencedTableName: client_table
+        validate: true
+- changeSet:
+    id: 1679220211052-21
+    author: kosav (generated)
+    preConditions:
+        onFail: MARK_RAN
+        not:
+            foreignKeyConstraintExists:
+                foreignKeyName: fkkv0qs2i53n3lpwpvb83q5i5lv
+                foreignKeyTableName: product_for_check
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: product_id
+        baseTableName: product_for_check
+        constraintName: fkkv0qs2i53n3lpwpvb83q5i5lv
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: product_id
+        referencedTableName: product_table
+        validate: true
+- changeSet:
+    id: 1679220211052-22
+    author: kosav (generated)
+    preConditions:
+        onFail: MARK_RAN
+        not:
+            foreignKeyConstraintExists:
+                foreignKeyName: fkthjxrf8qtikgj3qe1kcw3hcee
+                foreignKeyTableName: product_for_check
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: check_number
+        baseTableName: product_for_check
+        constraintName: fkthjxrf8qtikgj3qe1kcw3hcee
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: number
+        referencedTableName: check_table
+        validate: true
+- changeSet:
+    id: 1679220211052-23
+    author: kosav (generated)
+    preConditions:
+        onFail: MARK_RAN
+        not:
+            foreignKeyConstraintExists:
+                foreignKeyName: fktpl3o1464c1jd6t12rinbjme6
+                foreignKeyTableName: check_table
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: client_id
+        baseTableName: check_table
+        constraintName: fktpl3o1464c1jd6t12rinbjme6
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: client_id
+        referencedTableName: client_table
+        validate: true
