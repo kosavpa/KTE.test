@@ -74,6 +74,7 @@ public class ProductServiceImpl implements ProductService {
 
         return AdditionalProductInfo
                 .builder()
+                .productName(product.getName())
                 .about(product.getAbout())
                 .middleStar(middleStar)
                 .client(client)
@@ -131,7 +132,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public long generateCheck(long clientId, double totalPrice, List<TotalPriceShopingListRequest> shopingList) {
+    public Check generateCheck(long clientId, double totalPrice, List<TotalPriceShopingListRequest> shopingList) {
         TotalPriceShopingListResponse totalPriceShopingList = totalPriceProductResponseFromRequestShopingList(shopingList, this);
         double totalPriceExcludeClientDiscount = totalPriceShopingList.getTotalPrice();
 
@@ -152,6 +153,6 @@ public class ProductServiceImpl implements ProductService {
 
         check = checkService.saveCheck(check);
 
-        return check.getNumber();
+        return check;
     }
 }

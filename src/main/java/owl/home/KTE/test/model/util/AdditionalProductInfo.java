@@ -9,6 +9,7 @@ import java.util.Map;
 
 @Getter @Setter @Builder
 public class AdditionalProductInfo {
+    private String productName;
     private String about;
     private double middleStar;
     private Client client;

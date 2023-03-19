@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import owl.home.KTE.test.model.check.Check;
 import owl.home.KTE.test.model.product.Product;
 import owl.home.KTE.test.model.util.AdditionalProductInfo;
 import owl.home.KTE.test.model.util.StatisticProductResponse;
@@ -56,7 +57,7 @@ public class ProductController {
     }
 
     @PostMapping("/generate-check/{clientId}/{totalPrice}")
-    ResponseEntity<Long> generateCheck(
+    ResponseEntity<Check> generateCheck(
             @PathVariable("clientId") long clientId,
             @PathVariable("totalPrice") double totalPrice,
             @RequestBody List<TotalPriceShopingListRequest> shopingList
