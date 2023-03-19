@@ -67,7 +67,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public boolean updateDiscounts(long clientId, int discount1, int discount2) {
+    public Client updateDiscounts(long clientId, int discount1, int discount2) {
         Client oldClient = clientById(clientId);
 
         oldClient.setPersonalDiscount1(discount1);
@@ -76,6 +76,10 @@ public class ClientServiceImpl implements ClientService {
         saveClient(oldClient);
         Client newClient = clientById(oldClient.getId());
 
-        return oldClient.equals(newClient);
+        if(!oldClient.equals(newClient)){
+            throw new IllegalArgumentException("Something went wrong!");
+        }
+
+        return newClient;
     }
 }

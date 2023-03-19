@@ -2,7 +2,6 @@ package owl.home.KTE.test.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import owl.home.KTE.test.model.client.Client;
@@ -24,16 +23,11 @@ public class ClientController {
     }
 
     @PatchMapping("/update-discounts/{clientId}/{discount1}/{discount2}")
-    ResponseEntity updateDiscount(
+    ResponseEntity<Client> updateDiscount(
             @PathVariable("clientId") long clientId,
             @PathVariable("discount1") int discount1,
             @PathVariable("discount2") int discount2){
-        boolean isSucess = service.updateDiscounts(clientId, discount1, discount2);
-
-        if (!isSucess)
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-
-        return new ResponseEntity(HttpStatus.OK);
+        return ResponseEntity.ok(service.updateDiscounts(clientId, discount1, discount2));
     }
 
     @GetMapping("/statistic/{clientId}")

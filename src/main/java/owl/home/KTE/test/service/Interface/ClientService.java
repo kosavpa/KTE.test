@@ -16,5 +16,5 @@ public interface ClientService {
     Client saveClient(Client client);
     List<Client> allClient();
     StatisticClientResponse statisticClient(long clientId);
-    boolean updateDiscounts(long clientId, int discount1, int discount2);
+    Client updateDiscounts(long clientId, int discount1, int discount2);
 }

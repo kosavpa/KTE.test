@@ -13,7 +13,6 @@ import owl.home.KTE.test.model.util.TotalPriceShopingListResponse;
 import owl.home.KTE.test.service.Interface.ProductService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.http.HttpRequest;
 import java.util.List;
 
 
@@ -41,14 +40,14 @@ public class ProductController {
     }
 
     @PutMapping("/feedback/{productId}/{clientId}/{amountStar}")
-    ResponseEntity feedBackProduct(
+    ResponseEntity<AdditionalProductInfo> feedBackProduct(
             @PathVariable("productId") long productId,
             @PathVariable("clientId") long clientId,
             @PathVariable("amountStar") int amountStar
     ){
         service.saveFeedbackProduct(productId, clientId, amountStar);
 
-        return new ResponseEntity(HttpStatus.OK);
+        return ResponseEntity.ok(service.additionalProductInfo(productId, clientId));
     }
 
     @GetMapping("/statistic/{productId}")
