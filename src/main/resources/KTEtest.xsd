@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xs:schema
         xmlns:xs="http://www.w3.org/2001/XMLSchema"
         targetNamespace="http://kte.test-web-service"
@@ -83,7 +84,7 @@
     <xs:element name="getTotalPriceRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="totalPriceRequestList" type="tns:TotalPriseRequestList" maxOccurs="unbounded"/>
+                <xs:element name="totalPriceRequestList" type="tns:TotalPriseRequest" maxOccurs="unbounded"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -133,17 +134,17 @@
     </xs:element>
     <!--Product statistic-->
     <!--Create check-->
-    <xs:element name="crateCheckRequest">
+    <xs:element name="createCheckRequest">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="clientId" type="xs:long"/>
                 <xs:element name="totalPrice" type="xs:double"/>
-                <xs:element name="totalPriceRequestList" type="tns:TotalPriseRequestList"/>
+                <xs:element name="totalPriceRequestList" type="tns:TotalPriseRequest" maxOccurs="unbounded"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="crateCheckResponse">
+    <xs:element name="createCheckResponse">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="check" type="tns:Check"/>
@@ -205,7 +206,7 @@
 
     <xs:complexType name="Map">
         <xs:sequence>
-            <xs:element name="mapEntry" type="MapEntry" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="mapEntry" type="tns:MapEntry" maxOccurs="unbounded" />
         </xs:sequence>
     </xs:complexType>
 
@@ -220,12 +221,6 @@
         <xs:sequence>
             <xs:element name="productId" type="xs:long"/>
             <xs:element name="amount" type="xs:int"/>
-        </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name="TotalPriseRequestList">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" name="totalPriceRequest" type="tns:TotalPriseRequest"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -260,7 +255,7 @@
     <xs:complexType name="Check">
         <xs:sequence>
             <xs:element name="number" type="xs:long"/>
-            <xs:element name="date" type="xs:date"/>
+            <xs:element name="date" type="xs:string"/>
             <xs:element name="shopingList" type="tns:ShopingList"/>
             <xs:element name="client" type="tns:Client"/>
             <xs:element name="finalPrice" type="xs:double"/>
