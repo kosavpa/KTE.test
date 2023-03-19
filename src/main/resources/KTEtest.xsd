@@ -3,24 +3,24 @@
         targetNamespace="http://kte.test-web-service"
         xmlns:tns="http://kte.test-web-service"
         elementFormDefault="qualified">
-<!--All client-->
+    <!--All client-->
     <xs:element name="getAllClientRequest"/>
 
     <xs:element name="getAllClientResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="clients" type="tns:ClientList" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="clients" type="tns:ClientList"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-<!--All client-->
-<!--Update client discount-->
+    <!--All client-->
+    <!--Update client discount-->
     <xs:element name="updateClientDiscountRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="ClientId" type="xs:long" minOccurs="1" maxOccurs="1"/>
-                <xs:element name="personalDiscount1" type="xs:int" minOccurs="1" maxOccurs="1"/>
-                <xs:element name="personalDiscount2" type="xs:int" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="ClientId" type="xs:long"/>
+                <xs:element name="personalDiscount1" type="xs:int"/>
+                <xs:element name="personalDiscount2" type="xs:int"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -28,16 +28,16 @@
     <xs:element name="updateClientDiscountResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="client" type="tns:Client" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="client" type="tns:Client"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-<!--Update client discount-->
-<!--Client statistic-->
+    <!--Update client discount-->
+    <!--Client statistic-->
     <xs:element name="getClientStatisticRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="clientId" type="xs:long" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="clientId" type="xs:long"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -45,28 +45,28 @@
     <xs:element name="getClientStatisticResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="clientStatistic" type="tns:StatisticClient" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="clientStatistic" type="tns:StatisticClient"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-<!--Client statistic-->
-<!--All product-->
+    <!--Client statistic-->
+    <!--All product-->
     <xs:element name="getAllProductRequest"/>
 
     <xs:element name="getAllProductResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="products" type="tns:ProductList" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="products" type="tns:ProductList"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-<!--All product-->
-<!--Additional product info-->
+    <!--All product-->
+    <!--Additional product info-->
     <xs:element name="getAdditionalProductInfoRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="productId" type="xs:long" minOccurs="1" maxOccurs="1"/>
-                <xs:element name="clientId" type="xs:long" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="productId" type="xs:long"/>
+                <xs:element name="clientId" type="xs:long"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -74,16 +74,16 @@
     <xs:element name="getAdditionalProductInfoResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="additionalProductInfo" type="tns:AdditionalProductInfo" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="additionalProductInfo" type="tns:AdditionalProductInfo"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-<!--Additional product info-->
-<!--Total price-->
+    <!--Additional product info-->
+    <!--Total price-->
     <xs:element name="getTotalPriceRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="totalPriceRequestList" type="tns:TotalPriseRequestList" minOccurs="1" maxOccurs="unbounded"/>
+                <xs:element name="totalPriceRequestList" type="tns:TotalPriseRequestList" maxOccurs="unbounded"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -91,18 +91,18 @@
     <xs:element name="getTotalPriceResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="totalPriceResponse" type="tns:TotalPriceResponse" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="totalPriceResponse" type="tns:TotalPriceResponse"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-<!--Total price-->
-<!--Feedback product-->
+    <!--Total price-->
+    <!--Feedback product-->
     <xs:element name="createFeedbackProductRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="productId" type="xs:long" minOccurs="1" maxOccurs="1"/>
-                <xs:element name="clientId" type="xs:long" minOccurs="1" maxOccurs="1"/>
-                <xs:element name="amountStar" type="xs:int" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="productId" type="xs:long"/>
+                <xs:element name="clientId" type="xs:long"/>
+                <xs:element name="amountStar" type="xs:int"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -110,16 +110,16 @@
     <xs:element name="createFeedbackProductResponce">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="additionalProductInfo" type="tns:AdditionalProductInfo" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="additionalProductInfo" type="tns:AdditionalProductInfo"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-<!--Feedback product-->
-<!--Product statistic-->
+    <!--Feedback product-->
+    <!--Product statistic-->
     <xs:element name="getProductStatisticRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="productId" type="xs:long" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="productId" type="xs:long"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -127,18 +127,18 @@
     <xs:element name="getProductStatisticResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="productStatistic" type="tns:StatisticProduct" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="productStatistic" type="tns:StatisticProduct"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-<!--Product statistic-->
-<!--Create check-->
+    <!--Product statistic-->
+    <!--Create check-->
     <xs:element name="crateCheckRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="clientId" type="xs:long" minOccurs="1" maxOccurs="1"/>
-                <xs:element name="totalPrice" type="xs:double" minOccurs="1" maxOccurs="1"/>
-                <xs:element name="totalPriceRequestList" type="tns:TotalPriseRequestList" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="clientId" type="xs:long"/>
+                <xs:element name="totalPrice" type="xs:double"/>
+                <xs:element name="totalPriceRequestList" type="tns:TotalPriseRequestList"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -146,60 +146,60 @@
     <xs:element name="crateCheckResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="check" type="tns:Check" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="check" type="tns:Check"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-<!--Create check-->
+    <!--Create check-->
 
     <xs:complexType name="Client">
         <xs:sequence>
-            <xs:element name="id" type="xs:long" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="personalDiscount1" type="xs:int" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="personalDiscount2" type="xs:int" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="personalDiscount1" type="xs:int"/>
+            <xs:element name="personalDiscount2" type="xs:int"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="StatisticClient">
         <xs:sequence>
-            <xs:element name="client" type="tns:Client" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="amountCheck" type="xs:int" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="totalCheckSum" type="xs:double" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="totalCheckDiscountSum" type="xs:int" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="client" type="tns:Client"/>
+            <xs:element name="amountCheck" type="xs:int"/>
+            <xs:element name="totalCheckSum" type="xs:double"/>
+            <xs:element name="totalCheckDiscountSum" type="xs:int"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="ClientList">
         <xs:sequence>
-            <xs:element minOccurs="1" maxOccurs="unbounded" name="client" type="tns:Client"/>
+            <xs:element maxOccurs="unbounded" name="client" type="tns:Client"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="Product">
         <xs:sequence>
-            <xs:element name="id" type="xs:long" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="price" type="xs:double" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="discount" type="xs:int" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="about" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="price" type="xs:double"/>
+            <xs:element name="discount" type="xs:int"/>
+            <xs:element name="about" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="ProductList">
         <xs:sequence>
-            <xs:element minOccurs="1" maxOccurs="unbounded" name="product" type="tns:Product"/>
+            <xs:element maxOccurs="unbounded" name="product" type="tns:Product"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="AdditionalProductInfo">
         <xs:sequence>
-            <xs:element name="productName" type="xs:string" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="about" type="xs:string" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="middleStar" type="xs:double" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="client" type="tns:Client" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="userRating" type="xs:int" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="starsDistribution" type="tns:Map" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="productName" type="xs:string"/>
+            <xs:element name="about" type="xs:string"/>
+            <xs:element name="middleStar" type="xs:double"/>
+            <xs:element name="client" type="tns:Client"/>
+            <xs:element name="userRating" type="xs:int"/>
+            <xs:element name="starsDistribution" type="tns:Map"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -211,28 +211,28 @@
 
     <xs:complexType name="MapEntry">
         <xs:sequence>
-            <xs:element name="key" type="xs:int" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="value" type="xs:double" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="key" type="xs:int"/>
+            <xs:element name="value" type="xs:double"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="TotalPriseRequest">
         <xs:sequence>
-            <xs:element name="productId" type="xs:long" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="amount" type="xs:int" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="productId" type="xs:long"/>
+            <xs:element name="amount" type="xs:int"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="TotalPriseRequestList">
         <xs:sequence>
-            <xs:element minOccurs="1" maxOccurs="unbounded" name="totalPriceRequest" type="tns:TotalPriseRequest"/>
+            <xs:element maxOccurs="unbounded" name="totalPriceRequest" type="tns:TotalPriseRequest"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="TotalPriceResponse">
         <xs:sequence>
-            <xs:element name="totalPrice" type="xs:double" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="carrency" type="tns:Carrensy" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="totalPrice" type="xs:double"/>
+            <xs:element name="carrency" type="tns:Carrensy"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -250,35 +250,35 @@
 
     <xs:complexType name="StatisticProduct">
         <xs:sequence>
-            <xs:element name="product" type="tns:Product" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="amountCheck" type="xs:int" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="totalCostAtOriginalPrise" type="xs:double" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="discountSum" type="xs:int" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="product" type="tns:Product"/>
+            <xs:element name="amountCheck" type="xs:int"/>
+            <xs:element name="totalCostAtOriginalPrise" type="xs:double"/>
+            <xs:element name="discountSum" type="xs:int"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="Check">
         <xs:sequence>
-            <xs:element name="number" type="xs:long" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="date" type="xs:date" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="shopingList" type="tns:ShopingList" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="client" type="tns:Client" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="finalPrice" type="xs:double" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="number" type="xs:long"/>
+            <xs:element name="date" type="xs:date"/>
+            <xs:element name="shopingList" type="tns:ShopingList"/>
+            <xs:element name="client" type="tns:Client"/>
+            <xs:element name="finalPrice" type="xs:double"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="ShopingListElement">
         <xs:sequence>
-            <xs:element name="id" type="xs:long" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="product" type="tns:Product" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="amountProduct" type="xs:int" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="sumDiscount" type="xs:int" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="product" type="tns:Product"/>
+            <xs:element name="amountProduct" type="xs:int"/>
+            <xs:element name="sumDiscount" type="xs:int"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="ShopingList">
         <xs:sequence>
-            <xs:element minOccurs="1" maxOccurs="unbounded" name="shopingListElement" type="tns:ShopingListElement"/>
+            <xs:element maxOccurs="unbounded" name="shopingListElement" type="tns:ShopingListElement"/>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>
