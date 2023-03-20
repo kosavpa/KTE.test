@@ -27,7 +27,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
         return new ServletRegistrationBean<>(servlet, "/ws/*");
     }
 
-    @Bean
+    @Bean("KTE")
     public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema kteschema) {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
 
