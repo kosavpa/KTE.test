@@ -2,16 +2,12 @@ package owl.home.KTE.test.service.util;
 
 
 import owl.home.KTE.test.model.client.Client;
-import owl.home.KTE.test.model.check.Check;
 import owl.home.KTE.test.model.product.Product;
 import owl.home.KTE.test.model.product.ProductForCheck;
 import owl.home.KTE.test.model.product.Rating;
-import owl.home.KTE.test.model.util.AdditionalProductInfo;
-import owl.home.KTE.test.model.util.StatisticProductResponse;
 import owl.home.KTE.test.model.util.TotalPriceShopingListRequest;
 import owl.home.KTE.test.model.util.TotalPriceShopingListResponse;
 import owl.home.KTE.test.service.Interface.ProductService;
-import test_web_service.kte.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
@@ -20,8 +16,6 @@ import java.util.*;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
-
-import static owl.home.KTE.test.service.util.ClientUtil.*;
 
 
 public class ProductUtil {
@@ -150,124 +144,6 @@ public class ProductUtil {
                                 productForCheck.getProduct(),
                                 productForCheck.getAmountProduct()))
                 .sum();
-    }
-
-    public static List<test_web_service.kte.Product> mapProductListToWsProductList(List<Product> products){
-        return products
-                .stream()
-                .map(product -> {
-                    test_web_service.kte.Product wsProduct = new test_web_service.kte.Product();
-
-                    wsProduct.setId(product.getId());
-                    wsProduct.setName(product.getName());
-                    wsProduct.setAbout(product.getAbout());
-                    wsProduct.setPrice(product.getPrice());
-                    wsProduct.setDiscount(product.getDiscount());
-
-                    return wsProduct;})
-                .collect(Collectors.toList());
-    }
-
-    public static test_web_service.kte.AdditionalProductInfo mapAdditionalProductInfoToWsAdditionalProductInfo(AdditionalProductInfo productInfo){
-        test_web_service.kte.AdditionalProductInfo wsProductInfo = new test_web_service.kte.AdditionalProductInfo();
-        test_web_service.kte.Map distributionStar = new test_web_service.kte.Map();
-
-        distributionStar.getMapEntry().addAll(mapMapEntryToWsMapEntry(productInfo.getStarsDistribution().entrySet()));
-        wsProductInfo.setAbout(productInfo.getAbout());
-        wsProductInfo.setProductName(productInfo.getProductName());
-        wsProductInfo.setClient(mapClientToWsClient(productInfo.getClient()));
-        wsProductInfo.setMiddleStar(productInfo.getMiddleStar());
-        wsProductInfo.setUserRating(productInfo.getUserRating());
-        wsProductInfo.setStarsDistribution(distributionStar);
-
-        return wsProductInfo;
-    }
-
-    public static Collection<? extends MapEntry> mapMapEntryToWsMapEntry(Set<Map.Entry<Integer, Double>> entrySet) {
-        return entrySet
-                .stream()
-                .map(entry -> {
-                    MapEntry wsMapEntry = new MapEntry();
-
-                    wsMapEntry.setKey(entry.getKey());
-                    wsMapEntry.setValue(entry.getValue());
-
-                    return wsMapEntry;})
-                .collect(Collectors.toList());
-    }
-
-    public static List<TotalPriceShopingListRequest> mapWsRequestTototalPriceShopingListRequests( List<TotalPriseRequest> wsRequest){
-        return wsRequest
-                .stream()
-                .map(wsReq -> {
-                    return TotalPriceShopingListRequest
-                            .builder()
-                            .productId(wsReq.getProductId())
-                            .amount(wsReq.getAmount())
-                            .build();})
-                .collect(Collectors.toList());
-    }
-
-    public static TotalPriceResponse mapTotalPriceShopingListToWsTotalPrise(TotalPriceShopingListResponse totalPriceShopingListResponse){
-        TotalPriceResponse wsResp = new TotalPriceResponse();
-        test_web_service.kte.Carrensy carrensy = new test_web_service.kte.Carrensy();
-        carrensy.setCarrensyVal(totalPriceShopingListResponse.getCarrensy().name);
-        wsResp.setCarrency(carrensy);
-        wsResp.setTotalPrice(totalPriceShopingListResponse.getTotalPrice());
-
-        return wsResp;
-    }
-
-    public static StatisticProduct mapStatisticProductToWsStatisticProduct(StatisticProductResponse statisticProductResponse) {
-        StatisticProduct wsStatistic = new StatisticProduct();
-
-        wsStatistic.setProduct(mapProductToWsProduct(statisticProductResponse.getProduct()));
-        wsStatistic.setAmountCheck(statisticProductResponse.getAmountCheck());
-        wsStatistic.setDiscountSum(statisticProductResponse.getDiscountSum());
-        wsStatistic.setTotalCostAtOriginalPrise(statisticProductResponse.getTotalCostAtOriginalPrise());
-
-        return wsStatistic;
-    }
-
-    public static test_web_service.kte.Product mapProductToWsProduct(Product product) {
-        test_web_service.kte.Product wsProduct = new test_web_service.kte.Product();
-
-        wsProduct.setDiscount(product.getDiscount());
-        wsProduct.setId(product.getId());
-        wsProduct.setName(product.getName());
-        wsProduct.setAbout(product.getAbout());
-        wsProduct.setPrice(product.getPrice());
-
-        return wsProduct;
-    }
-
-    public static test_web_service.kte.Check mapCheckToWsCheck(Check check) {
-        test_web_service.kte.Check wsCheck = new test_web_service.kte.Check();
-
-        ShopingList shopingList = new ShopingList();
-        shopingList.getShopingListElement().addAll(mapProductForCheckListToWsShopingList(check.getShoppingList()));
-        wsCheck.setClient(mapClientToWsClient(check.getClient()));
-        wsCheck.setFinalPrice(check.getFinalPrice());
-        wsCheck.setNumber(check.getNumber());
-        wsCheck.setDate(mapCalendarToXmlGregorianColendar(Calendar.getInstance().getTime()));
-        wsCheck.setShopingList(shopingList);
-
-        return wsCheck;
-    }
-
-    public static List<ShopingListElement> mapProductForCheckListToWsShopingList(Set<ProductForCheck> shoppingList) {
-        return shoppingList
-                .stream()
-                .map(productForCheck -> {
-                    ShopingListElement wsElem = new ShopingListElement();
-
-                    wsElem.setProduct(mapProductToWsProduct(productForCheck.getProduct()));
-                    wsElem.setId(productForCheck.getId());
-                    wsElem.setSumDiscount(productForCheck.getSumDiscount());
-                    wsElem.setAmountProduct(productForCheck.getAmountProduct());
-
-                    return wsElem;})
-                .collect(Collectors.toList());
     }
 
     public static String mapCalendarToXmlGregorianColendar(Date time) {
