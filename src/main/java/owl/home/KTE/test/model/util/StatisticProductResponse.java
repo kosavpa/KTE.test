@@ -1,13 +1,11 @@
 package owl.home.KTE.test.model.util;
 
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import owl.home.KTE.test.model.product.Product;
 
 
-@Setter @Getter @Builder
+@Getter @Setter @Builder @AllArgsConstructor @NoArgsConstructor
 public class StatisticProductResponse {
     private Product product;
     private int amountCheck;

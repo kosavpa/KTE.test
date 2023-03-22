@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 import static owl.home.KTE.test.service.util.ProductUtil.*;
+import static owl.home.KTE.test.service.util.RatingUtil.distributionStarMap;
+import static owl.home.KTE.test.service.util.RatingUtil.middleStar;
 
 
 @Component
@@ -84,34 +86,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public TotalPriceShopingListResponse totalPriceResponse(HttpServletRequest request) {
-        List<TotalPriceShopingListRequest> totalPriceShopingListRequests = totalPriseRequestList(request);
-
-        return totalPriceProductResponseFromRequestShopingList(totalPriceShopingListRequests, this);
-    }
-
-    @Override
-    public void saveFeedbackProduct(long productId, long clientId, int amountStar) {
-        Product product = productById(productId);
-        Client client = clientService.clientById(clientId);
-        Rating newRating = Rating
-                .builder()
-                .product(product)
-                .client(client)
-                .amountStar(amountStar)
-                .build();
-
-        Rating oldRating = ratingService.findByProductIdAndClientId(productId, clientId).orElse(newRating);
-
-        if (amountStar == 0){
-            if(oldRating == newRating)
-                return;
-
-            ratingService.deleteRatingById(oldRating.getId());
-            return;
-        }
-
-        ratingService.saveRating(oldRating);
+    public TotalPriceShopingListResponse totalPriceResponse(List<TotalPriceShopingListRequest> request) {
+        return totalPriceProductResponseFromRequestShopingList(request, this);
     }
 
     @Override
@@ -129,30 +105,5 @@ public class ProductServiceImpl implements ProductService {
                 .amountCheck(amountCheck)
                 .discountSum(discountSum)
                 .build();
-    }
-
-    @Override
-    public Check generateCheck(long clientId, double totalPrice, List<TotalPriceShopingListRequest> shopingList) {
-        TotalPriceShopingListResponse totalPriceShopingList = totalPriceProductResponseFromRequestShopingList(shopingList, this);
-        double totalPriceExcludeClientDiscount = totalPriceShopingList.getTotalPrice();
-
-        if (totalPriceExcludeClientDiscount != totalPrice)
-            throw new IllegalArgumentException("Bad total price in request!");
-
-        Set<ProductForCheck> productsForCheck = productForCheckListFromTotalPriceShopingListRequest(shopingList, this);
-        Client client = clientService.clientById(clientId);
-        double priceWhithClientDiscount = priceWithClientDiscount(client, productsForCheck);
-
-        Check check = Check
-                .builder()
-                .client(client)
-                .date(Calendar.getInstance().getTime())
-                .shoppingList(productsForCheck)
-                .finalPrice(priceWhithClientDiscount)
-                .build();
-
-        check = checkService.saveCheck(check);
-
-        return check;
     }
 }

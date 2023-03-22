@@ -20,8 +20,6 @@ public interface ProductService {
     Product saveProduct(Product product);
     List<Product> allProduct();
     AdditionalProductInfo additionalProductInfo(long productId, long clientId);
-    TotalPriceShopingListResponse totalPriceResponse(HttpServletRequest request);
-    void saveFeedbackProduct(long productId, long clientId, int amountStar);
+    TotalPriceShopingListResponse totalPriceResponse(List<TotalPriceShopingListRequest> request);
     StatisticProductResponse statisticProduct(long productId);
-    Check generateCheck(long clientId, double totalPrice, List<TotalPriceShopingListRequest> shopingList);
 }

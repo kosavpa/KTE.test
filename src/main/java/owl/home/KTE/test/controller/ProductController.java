@@ -11,33 +11,43 @@ import owl.home.KTE.test.model.util.AdditionalProductInfo;
 import owl.home.KTE.test.model.util.StatisticProductResponse;
 import owl.home.KTE.test.model.util.TotalPriceShopingListRequest;
 import owl.home.KTE.test.model.util.TotalPriceShopingListResponse;
+import owl.home.KTE.test.service.Interface.CheckService;
 import owl.home.KTE.test.service.Interface.ProductService;
+import owl.home.KTE.test.service.Interface.RatingService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+import static owl.home.KTE.test.service.util.ProductUtil.*;
+
 
 @RestController
-@RequestMapping("/rest/v1/product-service")
+@RequestMapping("/rest/v1/product-productService")
 public class ProductController {
     @Autowired
-    private ProductService service;
+    private ProductService productService;
+    @Autowired
+    private CheckService checkService;
+    @Autowired
+    private RatingService ratingService;
 
     @GetMapping("/all")
     ResponseEntity<List<Product>> getAllProduct(){
-        return ResponseEntity.ok(service.allProduct());
+        return ResponseEntity.ok(productService.allProduct());
     }
 
     @GetMapping("/additional/{productId}/{clientId}")
     ResponseEntity<AdditionalProductInfo> getAdditionalProductInfo(
             @PathVariable("productId") long productId,
             @PathVariable("clientId") long clientId){
-        return ResponseEntity.ok(service.additionalProductInfo(productId, clientId));
+        return ResponseEntity.ok(productService.additionalProductInfo(productId, clientId));
     }
 
     @GetMapping("/total-price")
     ResponseEntity<TotalPriceShopingListResponse> totalPriceShopingLists(HttpServletRequest request){
-        return ResponseEntity.ok(service.totalPriceResponse(request));
+        List<TotalPriceShopingListRequest> shopingList = totalPriseRequestList(request);
+
+        return ResponseEntity.ok(productService.totalPriceResponse(shopingList));
     }
 
     @PutMapping("/feedback/{productId}/{clientId}/{amountStar}")
@@ -46,14 +56,14 @@ public class ProductController {
             @PathVariable("clientId") long clientId,
             @PathVariable("amountStar") int amountStar
     ){
-        service.saveFeedbackProduct(productId, clientId, amountStar);
+        ratingService.saveFeedbackProduct(productId, clientId, amountStar);
 
-        return ResponseEntity.ok(service.additionalProductInfo(productId, clientId));
+        return ResponseEntity.ok(productService.additionalProductInfo(productId, clientId));
     }
 
     @GetMapping("/statistic/{productId}")
     ResponseEntity<StatisticProductResponse> productStatisctic(@PathVariable("productId") long productId){
-        return ResponseEntity.ok(service.statisticProduct(productId));
+        return ResponseEntity.ok(productService.statisticProduct(productId));
     }
 
     @PostMapping("/generate-check/{clientId}/{totalPrice}")
@@ -62,7 +72,7 @@ public class ProductController {
             @PathVariable("totalPrice") double totalPrice,
             @RequestBody List<TotalPriceShopingListRequest> shopingList
     ){
-        return ResponseEntity.ok(service.generateCheck(clientId, totalPrice, shopingList));
+        return ResponseEntity.ok(checkService.generateCheck(clientId, totalPrice, shopingList));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

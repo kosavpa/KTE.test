@@ -15,4 +15,5 @@ public interface RatingService {
     boolean deleteRatingById(long id);
     List<Rating> findByProductId(long productId);
     Optional<Rating> findByProductIdAndClientId(long productId, long clientId);
+    void saveFeedbackProduct(long productId, long clientId, int amountStar);
 }

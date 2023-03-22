@@ -7,7 +7,7 @@ import owl.home.KTE.test.model.client.Client;
 import java.util.Map;
 
 
-@Getter @Setter @Builder
+@Getter @Setter @Builder @AllArgsConstructor@NoArgsConstructor
 public class AdditionalProductInfo {
     private String productName;
     private String about;

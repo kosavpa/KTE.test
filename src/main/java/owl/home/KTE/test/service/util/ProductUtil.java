@@ -19,28 +19,6 @@ import java.util.stream.DoubleStream;
 
 
 public class ProductUtil {
-    public static Map<Integer, Double> distributionStarMap(List<Rating> ratingsListProduct){
-        Map<Integer, Double> result = new HashMap<>();
-
-        ratingsListProduct.stream().forEach(rating -> {
-            Integer amountStar = rating.getAmountStar();
-            Double currentAmountStarInMap = result.get(amountStar);
-
-            if(currentAmountStarInMap == null){
-                currentAmountStarInMap = 1.0d;
-                result.put(amountStar, currentAmountStarInMap);
-            } else {
-                result.put(amountStar, currentAmountStarInMap + 1.0d);
-            }
-        });
-
-        return result;
-    }
-
-    public static double middleStar(Map<Integer, Double> distributionStar){
-        return distributionStar.entrySet().stream().flatMapToDouble(e -> DoubleStream.of(e.getValue())).average().orElse(0.0d);
-    }
-
     public static List<TotalPriceShopingListRequest> totalPriseRequestList(HttpServletRequest request){
         Map<String, String[]> paramMap = request.getParameterMap();
         String[] idsProducts = paramMap.get("id");
@@ -144,10 +122,5 @@ public class ProductUtil {
                                 productForCheck.getProduct(),
                                 productForCheck.getAmountProduct()))
                 .sum();
-    }
-
-    public static String mapCalendarToXmlGregorianColendar(Date time) {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return dateFormat.format(time);
     }
 }
