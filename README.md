@@ -29,3 +29,9 @@ getProductStatiscticRequest(статистика продукта), getGenerateC
 /total-price(итоговая стоимость списка покупок), /statistic/{productId}(статистика продукта);   
 **PUT:** /feedback/{productId}/{clientId}/{amountStar}(оставить отыв о товаре);
 **POST:** /generate-check/{clientId}/{totalPrice}(создание чека (оформление покупки));
+##SoapUi
+В данной папке лежат проекты тестов, а также сгенерированные отчеты о тестах в формате .csv.
+##JavaDoc
+В данной папке лежит сгенерированный javadoc. Для просмотра нужно запустить index.html.
+##Docker
+В данной папке лежат собранный .jar архив, dockerfile и docker-compose.yml. Таким образом для запуска проекта все что нужно - это ввести в вашей cli docker-compose up.
