@@ -31,4 +31,16 @@ public interface ClientWebService {
             localName = "getClientStatisticResponse",
             className = "owl.home.KTE.test.webservice.ClientStatisticResponse")
     StatisticClientResponse getStatisticClient(@WebParam(name = "clientId") long clientId);
+
+    @WebResult(name = "UpdateDiscount")
+    @RequestWrapper(
+            localName = "getUpdateDiscountRequest",
+            className = "owl.home.KTE.test.webservice.UpdateDiscountRequest")
+    @ResponseWrapper(
+            localName = "getUpdateDiscountResponse",
+            className = "owl.home.KTE.test.webservice.UpdateDiscountResponse")
+    Client updateDiscount(
+            @WebParam(name = "clientId") long clientId,
+            @WebParam(name = "discount1") int discount1,
+            @WebParam(name = "discount2") int discount2);
 }

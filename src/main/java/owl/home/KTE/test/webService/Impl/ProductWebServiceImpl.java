@@ -3,12 +3,8 @@ package owl.home.KTE.test.webService.Impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import owl.home.KTE.test.model.check.Check;
 import owl.home.KTE.test.model.product.Product;
-import owl.home.KTE.test.model.util.AdditionalProductInfo;
-import owl.home.KTE.test.model.util.StatisticProductResponse;
-import owl.home.KTE.test.model.util.TotalPriceShopingListRequest;
-import owl.home.KTE.test.model.util.TotalPriceShopingListResponse;
+import owl.home.KTE.test.model.util.*;
 import owl.home.KTE.test.service.Interface.CheckService;
 import owl.home.KTE.test.service.Interface.ProductService;
 import owl.home.KTE.test.service.Interface.RatingService;
@@ -21,12 +17,24 @@ import java.util.List;
 @Component
 @WebService(serviceName = "ProductService", targetNamespace = "http://kte.test-web-service")
 public class ProductWebServiceImpl implements ProductWebService {
-    @Autowired
     private ProductService productService;
-    @Autowired
     private CheckService checkService;
-    @Autowired
     private RatingService ratingService;
+
+    @Autowired
+    public void setProductService(ProductService productService) {
+        this.productService = productService;
+    }
+
+    @Autowired
+    public void setCheckService(CheckService checkService) {
+        this.checkService = checkService;
+    }
+
+    @Autowired
+    public void setRatingService(RatingService ratingService) {
+        this.ratingService = ratingService;
+    }
 
     @Override
     public List<Product> getAllProduct() {
@@ -56,7 +64,7 @@ public class ProductWebServiceImpl implements ProductWebService {
     }
 
     @Override
-    public Check generateCheck(long clientId, double totalPrice, List<TotalPriceShopingListRequest> shopingList) {
+    public CheckForResponce generateCheck(long clientId, double totalPrice, List<TotalPriceShopingListRequest> shopingList) {
         return checkService.generateCheck(clientId, totalPrice, shopingList);
     }
 }

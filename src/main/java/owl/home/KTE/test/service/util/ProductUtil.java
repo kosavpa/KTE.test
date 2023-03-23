@@ -4,18 +4,14 @@ package owl.home.KTE.test.service.util;
 import owl.home.KTE.test.model.client.Client;
 import owl.home.KTE.test.model.product.Product;
 import owl.home.KTE.test.model.product.ProductForCheck;
-import owl.home.KTE.test.model.product.Rating;
 import owl.home.KTE.test.model.util.TotalPriceShopingListRequest;
 import owl.home.KTE.test.model.util.TotalPriceShopingListResponse;
 import owl.home.KTE.test.service.Interface.ProductService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
 
 
 public class ProductUtil {
@@ -48,21 +44,21 @@ public class ProductUtil {
 
     public static TotalPriceShopingListResponse totalPriceProductResponseFromRequestShopingList(
             List<TotalPriceShopingListRequest> requestList,
-            ProductService service){
+            Carrensy carrensy,
+            Map<Long, Product> productMap){
+
+        double totalPrice = requestList
+                .stream()
+                .mapToDouble(tpr ->
+                        priceWithDiscountAndAmount(
+                                productMap.get(tpr.getProductId()),
+                                tpr.getAmount()))
+                .sum();
 
         return TotalPriceShopingListResponse
                 .builder()
-                .totalPrice(
-                        requestList
-                                .stream()
-                                .flatMapToDouble(tpr ->
-                                        DoubleStream.of(
-                                                priceWithDiscountAndAmount(
-                                                        service.productById(tpr.getProductId()),
-                                                        tpr.getAmount())))
-//                                В копейках
-                                .sum() * 100)
-                .carrensy(Carrensy.RUB)
+                .totalPrice(carrensy.equals(Carrensy.RUB) ? totalPrice : totalPrice * 100)
+                .carrensy(carrensy)
                 .build();
     }
 

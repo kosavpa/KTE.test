@@ -3,32 +3,47 @@ package owl.home.KTE.test.service.Impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import owl.home.KTE.test.model.check.Check;
 import owl.home.KTE.test.model.client.Client;
+import owl.home.KTE.test.model.product.Product;
 import owl.home.KTE.test.model.product.ProductForCheck;
+import owl.home.KTE.test.model.util.CheckForResponce;
 import owl.home.KTE.test.model.util.TotalPriceShopingListRequest;
 import owl.home.KTE.test.model.util.TotalPriceShopingListResponse;
 import owl.home.KTE.test.repo.CheckRepository;
 import owl.home.KTE.test.service.Interface.CheckService;
 import owl.home.KTE.test.service.Interface.ClientService;
 import owl.home.KTE.test.service.Interface.ProductService;
+import owl.home.KTE.test.service.util.Carrensy;
 
-import java.util.Calendar;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import static owl.home.KTE.test.service.util.ProductUtil.*;
 
 
 @Component
+@Transactional(readOnly = true)
 public class CheckServiceImpl implements CheckService {
+    private CheckRepository repository;
+    private ClientService clientService;
+    private ProductService productService;
+
     @Autowired
-    CheckRepository repository;
+    public void setRepository(CheckRepository repository) {
+        this.repository = repository;
+    }
+
     @Autowired
-    ClientService clientService;
+    public void setClientService(ClientService clientService) {
+        this.clientService = clientService;
+    }
+
     @Autowired
-    ProductService productService;
+    public void setProductService(ProductService productService) {
+        this.productService = productService;
+    }
 
     @Override
     public Check checkById(long checkId) {
@@ -42,6 +57,7 @@ public class CheckServiceImpl implements CheckService {
         return repository.findCheckByClientId(clientId);
     }
 
+    @Transactional
     @Override
     public boolean deleteCheckById(long checkId) {
         repository.deleteById(checkId);
@@ -49,14 +65,24 @@ public class CheckServiceImpl implements CheckService {
         return repository.existsById(checkId);
     }
 
+    @Transactional
     @Override
     public Check saveCheck(Check check) {
-        return repository.save(check);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        long checkId = repository.saveWithSequence(dateFormat.format(check.getDate()), check.getFinalPrice(), check.getClient().getId());
+
+        return checkById(checkId);
     }
 
+    @Transactional
     @Override
-    public Check generateCheck(long clientId, double totalPrice, List<TotalPriceShopingListRequest> shopingList) {
-        TotalPriceShopingListResponse totalPriceShopingList = totalPriceProductResponseFromRequestShopingList(shopingList, productService);
+    public CheckForResponce generateCheck(long clientId, double totalPrice, List<TotalPriceShopingListRequest> shopingList) {
+        Map<Long, Product> productMap = new HashMap<>();
+        shopingList
+                .stream()
+                .forEach(tpr -> productMap.put(tpr.getProductId(), productService.productById(tpr.getProductId())));
+
+        TotalPriceShopingListResponse totalPriceShopingList = totalPriceProductResponseFromRequestShopingList(shopingList, Carrensy.KOP, productMap);
         double totalPriceExcludeClientDiscount = totalPriceShopingList.getTotalPrice();
 
         if (totalPriceExcludeClientDiscount != totalPrice)
@@ -74,8 +100,28 @@ public class CheckServiceImpl implements CheckService {
                 .finalPrice(priceWhithClientDiscount)
                 .build();
 
-        check = saveCheck(check);
+        long checkNumber = saveCheck(check).getNumber();
+        String checkNumberForResponse = createCheckNumberForResponse(checkNumber);
 
-        return check;
+        CheckForResponce checkForResponce = CheckForResponce
+                .builder()
+                .client(check.getClient())
+                .date(check.getDate())
+                .finalPrice(check.getFinalPrice())
+                .shoppingList(check.getShoppingList())
+                .number(checkNumberForResponse)
+                .build();
+
+        return checkForResponce;
+    }
+
+    public static String createCheckNumberForResponse(long checkNumber) {
+        String result = String.valueOf(checkNumber);
+
+        if(result.length() < 4){
+            result = String.format("%05d", checkNumber);
+        }
+
+        return result;
     }
 }

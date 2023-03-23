@@ -14,5 +14,9 @@ spring:
 
   liquibase:
     enabled: true
+
+  main:
+    allow-circular-references: true
+
 cxf:
   path: /services

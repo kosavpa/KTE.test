@@ -18,12 +18,20 @@ import static owl.home.KTE.test.service.util.ClientUtil.*;
 
 
 @Component
-@Transactional
+@Transactional(readOnly = true)
 public class ClientServiceImpl implements ClientService {
+    private ClientRepository repository;
+    private CheckService checkService;
+
     @Autowired
-    ClientRepository repository;
+    public void setRepository(ClientRepository repository) {
+        this.repository = repository;
+    }
+
     @Autowired
-    CheckService checkService;
+    public void setCheckService(CheckService checkService) {
+        this.checkService = checkService;
+    }
 
     @Override
     public Client clientById(Long clientId) {
@@ -32,6 +40,7 @@ public class ClientServiceImpl implements ClientService {
         );
     }
 
+    @Transactional
     @Override
     public boolean deleteClientById(Long clientId) {
         repository.deleteById(clientId);
@@ -39,13 +48,13 @@ public class ClientServiceImpl implements ClientService {
         return !repository.existsById(clientId);
     }
 
+    @Transactional
     @Override
     public Client saveClient(Client client) {
         return repository.save(client);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Client> allClient() {
         return repository.findAll();
     }
@@ -66,6 +75,7 @@ public class ClientServiceImpl implements ClientService {
                 .build();
     }
 
+    @Transactional
     @Override
     public Client updateDiscounts(long clientId, int discount1, int discount2) {
         Client oldClient = clientById(clientId);

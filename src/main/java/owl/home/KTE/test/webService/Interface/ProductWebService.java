@@ -3,10 +3,7 @@ package owl.home.KTE.test.webService.Interface;
 
 import owl.home.KTE.test.model.check.Check;
 import owl.home.KTE.test.model.product.Product;
-import owl.home.KTE.test.model.util.AdditionalProductInfo;
-import owl.home.KTE.test.model.util.StatisticProductResponse;
-import owl.home.KTE.test.model.util.TotalPriceShopingListRequest;
-import owl.home.KTE.test.model.util.TotalPriceShopingListResponse;
+import owl.home.KTE.test.model.util.*;
 
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -75,7 +72,7 @@ public interface ProductWebService {
     @ResponseWrapper(
             localName = "getGenerateCheckResponse",
             className = "owl.home.KTE.test.webservice.GenerateCheckResponse")
-    Check generateCheck(
+    CheckForResponce generateCheck(
             @WebParam(name = "clientId") long clientId,
             @WebParam(name = "totalPrice") double totalPrice,
             @WebParam(name = "TotalPriceShopingListRequest") List<TotalPriceShopingListRequest> shopingList);

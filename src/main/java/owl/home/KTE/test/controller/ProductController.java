@@ -5,15 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import owl.home.KTE.test.model.check.Check;
 import owl.home.KTE.test.model.product.Product;
-import owl.home.KTE.test.model.util.AdditionalProductInfo;
-import owl.home.KTE.test.model.util.StatisticProductResponse;
-import owl.home.KTE.test.model.util.TotalPriceShopingListRequest;
-import owl.home.KTE.test.model.util.TotalPriceShopingListResponse;
+import owl.home.KTE.test.model.util.*;
 import owl.home.KTE.test.service.Interface.CheckService;
 import owl.home.KTE.test.service.Interface.ProductService;
 import owl.home.KTE.test.service.Interface.RatingService;
+import owl.home.KTE.test.service.util.RatingUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -24,12 +21,24 @@ import static owl.home.KTE.test.service.util.ProductUtil.*;
 @RestController
 @RequestMapping("/rest/v1/product-productService")
 public class ProductController {
-    @Autowired
     private ProductService productService;
-    @Autowired
     private CheckService checkService;
-    @Autowired
     private RatingService ratingService;
+
+    @Autowired
+    public void setProductService(ProductService productService) {
+        this.productService = productService;
+    }
+
+    @Autowired
+    public void setCheckService(CheckService checkService) {
+        this.checkService = checkService;
+    }
+
+    @Autowired
+    public void setRatingService(RatingService ratingService) {
+        this.ratingService = ratingService;
+    }
 
     @GetMapping("/all")
     ResponseEntity<List<Product>> getAllProduct(){
@@ -56,9 +65,18 @@ public class ProductController {
             @PathVariable("clientId") long clientId,
             @PathVariable("amountStar") int amountStar
     ){
+
         ratingService.saveFeedbackProduct(productId, clientId, amountStar);
 
-        return ResponseEntity.ok(productService.additionalProductInfo(productId, clientId));
+        AdditionalProductInfo productInfo = null;
+        try {
+             productInfo = productService.additionalProductInfo(productId, clientId);
+        } catch (Exception e){
+            if (e.getClass().equals(IllegalArgumentException.class) & e.getMessage().equals("Rating with this id not found!"))
+                return ResponseEntity.ok(ratingService.createEmptyAdditonalProductInfo(productId, clientId));
+        }
+
+        return ResponseEntity.ok(productInfo);
     }
 
     @GetMapping("/statistic/{productId}")
@@ -67,7 +85,7 @@ public class ProductController {
     }
 
     @PostMapping("/generate-check/{clientId}/{totalPrice}")
-    ResponseEntity<Check> generateCheck(
+    ResponseEntity<CheckForResponce> generateCheck(
             @PathVariable("clientId") long clientId,
             @PathVariable("totalPrice") double totalPrice,
             @RequestBody List<TotalPriceShopingListRequest> shopingList

@@ -14,8 +14,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/rest/v1/client-service")
 public class ClientController {
+    private ClientService service;
+
     @Autowired
-    ClientService service;
+    public void setService(ClientService service) {
+        this.service = service;
+    }
 
     @GetMapping("/all")
     ResponseEntity<List<Client>> getAllClient(){

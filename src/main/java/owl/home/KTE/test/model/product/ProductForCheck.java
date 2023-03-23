@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Entity
 @Table(
         name = "product_for_check",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"product_id", "check_number"}))
+        uniqueConstraints = @UniqueConstraint(columnNames = {"product_id", "check_id"}))
 @Getter @Setter @Builder @EqualsAndHashCode(exclude = "id")  @AllArgsConstructor @NoArgsConstructor
 public class ProductForCheck implements Serializable {
     @Id

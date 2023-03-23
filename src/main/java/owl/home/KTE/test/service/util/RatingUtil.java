@@ -1,6 +1,7 @@
 package owl.home.KTE.test.service.util;
 
 import owl.home.KTE.test.model.product.Rating;
+import owl.home.KTE.test.model.util.AdditionalProductInfo;
 
 import java.util.HashMap;
 import java.util.List;

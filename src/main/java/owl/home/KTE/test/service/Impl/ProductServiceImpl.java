@@ -15,9 +15,11 @@ import owl.home.KTE.test.model.util.TotalPriceShopingListRequest;
 import owl.home.KTE.test.model.util.TotalPriceShopingListResponse;
 import owl.home.KTE.test.repo.ProductRepository;
 import owl.home.KTE.test.service.Interface.*;
+import owl.home.KTE.test.service.util.Carrensy;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+import java.util.stream.DoubleStream;
 
 import static owl.home.KTE.test.service.util.ProductUtil.*;
 import static owl.home.KTE.test.service.util.RatingUtil.distributionStarMap;
@@ -25,18 +27,38 @@ import static owl.home.KTE.test.service.util.RatingUtil.middleStar;
 
 
 @Component
-@Transactional
+@Transactional(readOnly = true)
 public class ProductServiceImpl implements ProductService {
+    private ProductRepository productRepository;
+    private RatingService ratingService;
+    private ClientService clientService;
+    private ProductForCheckService productForCheckService;
+    private CheckService checkService;
+
     @Autowired
-    ProductRepository productRepository;
+    public void setProductRepository(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
     @Autowired
-    RatingService ratingService;
+    public void setRatingService(RatingService ratingService) {
+        this.ratingService = ratingService;
+    }
+
     @Autowired
-    ClientService clientService;
+    public void setClientService(ClientService clientService) {
+        this.clientService = clientService;
+    }
+
     @Autowired
-    ProductForCheckService productForCheckService;
+    public void setProductForCheckService(ProductForCheckService productForCheckService) {
+        this.productForCheckService = productForCheckService;
+    }
+
     @Autowired
-    CheckService checkService;
+    public void setCheckService(CheckService checkService) {
+        this.checkService = checkService;
+    }
 
     @Override
     public Product productById(long productId) {
@@ -45,6 +67,7 @@ public class ProductServiceImpl implements ProductService {
         );
     }
 
+    @Transactional
     @Override
     public boolean deleteProductById(long productId) {
         productRepository.deleteById(productId);
@@ -52,6 +75,7 @@ public class ProductServiceImpl implements ProductService {
         return !productRepository.existsById(productId);
     }
 
+    @Transactional
     @Override
     public Product saveProduct(Product product) {
         return productRepository.save(product);
@@ -62,6 +86,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll();
     }
 
+    @Transactional
     @Override
     public AdditionalProductInfo additionalProductInfo(long productId, long clientId){
         Product product = productById(productId);
@@ -87,7 +112,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public TotalPriceShopingListResponse totalPriceResponse(List<TotalPriceShopingListRequest> request) {
-        return totalPriceProductResponseFromRequestShopingList(request, this);
+        Map<Long, Product> productMap = new HashMap<>();
+        request
+                .stream()
+                .forEach(tpr -> productMap.put(tpr.getProductId(), productById(tpr.getProductId())));
+
+        return totalPriceProductResponseFromRequestShopingList(request, Carrensy.KOP, productMap);
     }
 
     @Override

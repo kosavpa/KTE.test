@@ -3,6 +3,7 @@ package owl.home.KTE.test.service.Interface;
 
 import org.springframework.stereotype.Service;
 import owl.home.KTE.test.model.product.Rating;
+import owl.home.KTE.test.model.util.AdditionalProductInfo;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,4 +17,5 @@ public interface RatingService {
     List<Rating> findByProductId(long productId);
     Optional<Rating> findByProductIdAndClientId(long productId, long clientId);
     void saveFeedbackProduct(long productId, long clientId, int amountStar);
+    AdditionalProductInfo createEmptyAdditonalProductInfo(long productId, long clientId);
 }

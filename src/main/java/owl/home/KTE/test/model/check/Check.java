@@ -2,6 +2,8 @@ package owl.home.KTE.test.model.check;
 
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import owl.home.KTE.test.model.client.Client;
 import owl.home.KTE.test.model.product.ProductForCheck;
 
@@ -16,15 +18,17 @@ import java.util.Set;
 @Getter @Setter  @Builder @AllArgsConstructor @NoArgsConstructor
 public class Check implements Serializable {
     @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     @Column(name = "number")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ktetest_seq")
-    @SequenceGenerator(sequenceName = "ktetest_seq", allocationSize = 1, name = "ktetest_seq", initialValue = 100)
     private long number;
     @Temporal(TemporalType.DATE)
     @Column(name = "date")
     private Date date;
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "check_number")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "check_id")
     private Set<ProductForCheck> shoppingList;
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "client_id")

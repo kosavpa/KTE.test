@@ -2,6 +2,7 @@ package owl.home.KTE.test.webService.Impl;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import owl.home.KTE.test.model.client.Client;
 import owl.home.KTE.test.model.util.StatisticClientResponse;
@@ -15,8 +16,12 @@ import java.util.List;
 @Component
 @WebService(serviceName = "ClientService", targetNamespace = "http://kte.test-web-service")
 public class ClientWebServiceImpl implements ClientWebService {
-    @Autowired
     ClientService service;
+
+    @Autowired
+    public void setService(ClientService service) {
+        this.service = service;
+    }
 
     @Override
     public List<Client> getAllClient() {
@@ -26,5 +31,10 @@ public class ClientWebServiceImpl implements ClientWebService {
     @Override
     public StatisticClientResponse getStatisticClient(long clientId) {
         return service.statisticClient(clientId);
+    }
+
+    @Override
+    public Client updateDiscount(long clientId, int discount1, int discount2) {
+        return service.updateDiscounts(clientId, discount1, discount2);
     }
 }
