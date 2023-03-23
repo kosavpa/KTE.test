@@ -1,10 +1,11 @@
 package owl.home.KTE.test.service.Impl;
-
+/**
+ * Имплиментация серверного слоя товара, некоторые методы могут кидать непроверяемые исключения
+ */
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import owl.home.KTE.test.model.check.Check;
 import owl.home.KTE.test.model.client.Client;
 import owl.home.KTE.test.model.product.Product;
 import owl.home.KTE.test.model.product.ProductForCheck;
@@ -17,9 +18,7 @@ import owl.home.KTE.test.repo.ProductRepository;
 import owl.home.KTE.test.service.Interface.*;
 import owl.home.KTE.test.service.util.Carrensy;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.*;
-import java.util.stream.DoubleStream;
 
 import static owl.home.KTE.test.service.util.ProductUtil.*;
 import static owl.home.KTE.test.service.util.RatingUtil.distributionStarMap;
@@ -60,6 +59,12 @@ public class ProductServiceImpl implements ProductService {
         this.checkService = checkService;
     }
 
+    /**
+     * Ищет товар по идентификатору. Может бросить RuntimeException, если товара с таким id нет,
+     * с соответствующим сообщением
+     * @param productId - идентификатор товара
+     * @return - товар
+     */
     @Override
     public Product productById(long productId) {
         return productRepository.findById(productId).orElseThrow(
@@ -86,13 +91,21 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll();
     }
 
+    /**
+     * Составляет информацию о товаре в которую входят - имя товара, описание товара, средняя оценка, клиент, что запросил информацию,
+     * оценка клиента этого товара и распределение всех оценок товара. Может бросить RuntimeException, если id товара и клиента никак не соотносятся,
+     * с соответствующим сообщением
+     * @param productId - идентификатор товара
+     * @param clientId - идентификатор клиента
+     * @return
+     */
     @Transactional
     @Override
     public AdditionalProductInfo additionalProductInfo(long productId, long clientId){
         Product product = productById(productId);
         Client client = clientService.clientById(clientId);
         Rating rating = ratingService.findByProductIdAndClientId(productId, clientId).orElseThrow(
-                () -> new IllegalArgumentException("Rating with this id not found!")
+                () -> new IllegalArgumentException("Rating with this ratin id and client id not found!")
         );
         List<Rating> ratingsThisProduct = ratingService.findByProductId(productId);
 

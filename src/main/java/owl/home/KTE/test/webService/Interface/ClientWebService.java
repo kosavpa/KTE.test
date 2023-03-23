@@ -1,5 +1,7 @@
 package owl.home.KTE.test.webService.Interface;
-
+/**
+ * Soap веб служба клиентов
+ */
 
 import owl.home.KTE.test.model.client.Client;
 import owl.home.KTE.test.model.util.StatisticClientResponse;
@@ -14,6 +16,9 @@ import java.util.List;
 
 @WebService(name = "ClientService" ,targetNamespace = "http://kte.test-web-service")
 public interface ClientWebService {
+    /**
+     * @return - список всех клиентов
+     */
     @WebResult(name = "Client")
     @RequestWrapper(
             localName = "getAllClientRequest",
@@ -23,6 +28,10 @@ public interface ClientWebService {
             className = "owl.home.KTE.test.webservice.AllClientResponse")
     List<Client> getAllClient();
 
+    /**
+     * @param clientId - идентификатор клиента
+     * @return - статистика клиента
+     */
     @WebResult(name = "ClientStatistic")
     @RequestWrapper(
             localName = "getClientStatisticRequest",
@@ -32,6 +41,13 @@ public interface ClientWebService {
             className = "owl.home.KTE.test.webservice.ClientStatisticResponse")
     StatisticClientResponse getStatisticClient(@WebParam(name = "clientId") long clientId);
 
+    /**
+     * Обновление персональных скидок
+     * @param clientId - идентификатор клиента
+     * @param discount1 - скидка №1
+     * @param discount2 - скидка №2
+     * @return - клиент
+     */
     @WebResult(name = "UpdateDiscount")
     @RequestWrapper(
             localName = "getUpdateDiscountRequest",

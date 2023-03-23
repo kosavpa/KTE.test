@@ -1,5 +1,7 @@
 package owl.home.KTE.test.controller;
-
+/**
+ * Rest сервис клиентов
+ */
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +23,21 @@ public class ClientController {
         this.service = service;
     }
 
+    /**
+     * @return - список всех клиентов
+     */
     @GetMapping("/all")
     ResponseEntity<List<Client>> getAllClient(){
         return ResponseEntity.ok(service.allClient());
     }
 
+    /**
+     * Обновление персональных скидок
+     * @param clientId - идентификатор клиента
+     * @param discount1 - скидка №1
+     * @param discount2 - скидка №2
+     * @return - клиент
+     */
     @PatchMapping("/update-discounts/{clientId}/{discount1}/{discount2}")
     ResponseEntity<Client> updateDiscount(
             @PathVariable("clientId") long clientId,
@@ -34,6 +46,10 @@ public class ClientController {
         return ResponseEntity.ok(service.updateDiscounts(clientId, discount1, discount2));
     }
 
+    /**
+     * @param clientId - идентификатор клиента
+     * @return - статистика клиента
+     */
     @GetMapping("/statistic/{clientId}")
     ResponseEntity<StatisticClientResponse> clientStatistic(@PathVariable("clientId") long clientId){
         return ResponseEntity.ok(service.statisticClient(clientId));

@@ -1,5 +1,7 @@
 package owl.home.KTE.test.webService.Impl;
-
+/**
+ * Имплиментация веб службы клиентов
+ */
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

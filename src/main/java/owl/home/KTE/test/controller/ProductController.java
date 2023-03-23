@@ -10,7 +10,6 @@ import owl.home.KTE.test.model.util.*;
 import owl.home.KTE.test.service.Interface.CheckService;
 import owl.home.KTE.test.service.Interface.ProductService;
 import owl.home.KTE.test.service.Interface.RatingService;
-import owl.home.KTE.test.service.util.RatingUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -40,11 +39,19 @@ public class ProductController {
         this.ratingService = ratingService;
     }
 
+    /**
+     * @return список товаров
+     */
     @GetMapping("/all")
     ResponseEntity<List<Product>> getAllProduct(){
         return ResponseEntity.ok(productService.allProduct());
     }
 
+    /**
+     * @param productId - идентификатор продукта
+     * @param clientId - идентификатор клиента
+     * @return - информацию о товаре
+     */
     @GetMapping("/additional/{productId}/{clientId}")
     ResponseEntity<AdditionalProductInfo> getAdditionalProductInfo(
             @PathVariable("productId") long productId,
@@ -52,6 +59,10 @@ public class ProductController {
         return ResponseEntity.ok(productService.additionalProductInfo(productId, clientId));
     }
 
+    /**
+     * @param request - сервлетный запрос
+     * @return - ответ итоговой стоимости товаров
+     */
     @GetMapping("/total-price")
     ResponseEntity<TotalPriceShopingListResponse> totalPriceShopingLists(HttpServletRequest request){
         List<TotalPriceShopingListRequest> shopingList = totalPriseRequestList(request);
@@ -59,6 +70,13 @@ public class ProductController {
         return ResponseEntity.ok(productService.totalPriceResponse(shopingList));
     }
 
+    /**
+     * Оценка товара
+     * @param productId - идентификатор продукта
+     * @param clientId - идентификатор клиента
+     * @param amountStar - количество звезд
+     * @return - информация о продукте
+     */
     @PutMapping("/feedback/{productId}/{clientId}/{amountStar}")
     ResponseEntity<AdditionalProductInfo> feedBackProduct(
             @PathVariable("productId") long productId,
@@ -79,11 +97,21 @@ public class ProductController {
         return ResponseEntity.ok(productInfo);
     }
 
+    /**
+     * @param productId - идентификатор продукта
+     * @return - статистика продукта
+     */
     @GetMapping("/statistic/{productId}")
     ResponseEntity<StatisticProductResponse> productStatisctic(@PathVariable("productId") long productId){
         return ResponseEntity.ok(productService.statisticProduct(productId));
     }
 
+    /**
+     * @param clientId - идентификатор клиента
+     * @param totalPrice - итоговая сумма
+     * @param shopingList - список запроса итоговой стоимости товара
+     * @return - чек
+     */
     @PostMapping("/generate-check/{clientId}/{totalPrice}")
     ResponseEntity<CheckForResponce> generateCheck(
             @PathVariable("clientId") long clientId,
@@ -93,10 +121,15 @@ public class ProductController {
         return ResponseEntity.ok(checkService.generateCheck(clientId, totalPrice, shopingList));
     }
 
+    /**
+     * Метод для отлова исключений которые прокидываются в серверном слое и отображения сообщения
+     * @param exception - исключение которое проброшено
+     * @return - ответ с кодом 400
+     */
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleException(IllegalArgumentException exception) {
         return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
+                .status(HttpStatus.BAD_REQUEST)
                 .body(exception.getMessage());
     }
 }

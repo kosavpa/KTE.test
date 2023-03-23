@@ -9,7 +9,7 @@ import java.util.List;
 
 
 @Repository
-public interface ShopingListRepository extends JpaRepository<ProductForCheck, Long> {
+public interface ProductForCheckRepository extends JpaRepository<ProductForCheck, Long> {
     int countByProductId(long productId);
-    List<ProductForCheck> findShopingListByproductId(long productId);
+    List<ProductForCheck> findProductForCheckByproductId(long productId);
 }

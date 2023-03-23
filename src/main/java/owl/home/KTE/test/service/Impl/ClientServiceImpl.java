@@ -1,5 +1,7 @@
 package owl.home.KTE.test.service.Impl;
-
+/**
+ * Имлиментация сервисного слоя клиента, некоторые методы могут кидать непроверяемые исключения
+ */
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,6 +35,12 @@ public class ClientServiceImpl implements ClientService {
         this.checkService = checkService;
     }
 
+    /**
+     * Ищет клиента по идентификатору. Может бросить RuntimeException, если клиента с таким id нет,
+     * с соответствующим сообщением
+     * @param clientId - идентификатор клиента
+     * @return - клиент
+     */
     @Override
     public Client clientById(Long clientId) {
         return repository.findById(clientId).orElseThrow(

@@ -1,5 +1,7 @@
 package owl.home.KTE.test.service.Impl;
-
+/**
+ * Имплиментация серверного слоя рейтинга, некоторые методы могут кидать непроверяемые исключения
+ */
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -42,6 +44,12 @@ public class RatingServiceImpl implements RatingService {
         this.clientService = clientService;
     }
 
+    /**
+     * Ищет рейтинг по идентификатору. Может бросить RuntimeException, если рейтинга с таким id нет,
+     * с соответствующим сообщением
+     * @param ratingId - идентификатор рейтинга
+     * @return - рейтинг или бросает IllegalArgumentException
+     */
     @Override
     public Rating getRatingById(long ratingId) {
         return repository.findById(ratingId).orElseThrow(
@@ -72,9 +80,19 @@ public class RatingServiceImpl implements RatingService {
         return repository.findByProductIdAndClientId(productId, clientId);
     }
 
+    /**
+     * Сохраняет или удаляет оценку товара пользователем, может бросить RuntimeException
+     * если операция удаления была провальна или оценка не корректна
+     * @param productId - идентификатор товара
+     * @param clientId - идентификатор клиента
+     * @param amountStar - отзыв о товаре (количество звезд), если 0 то "отзыв" оценки
+     */
     @Transactional
     @Override
     public void saveFeedbackProduct(long productId, long clientId, int amountStar) {
+        if(amountStar < 0 | amountStar > 5)
+            throw new IllegalArgumentException("Bad feedback!");
+
         Product product = productService.productById(productId);
         Client client = clientService.clientById(clientId);
         Rating newRating = Rating
@@ -90,13 +108,22 @@ public class RatingServiceImpl implements RatingService {
             if(oldRating == newRating)
                 return;
 
-            deleteRatingById(oldRating.getId());
-            return;
+            if (deleteRatingById(oldRating.getId())){
+                return;
+            } else {
+                throw new IllegalArgumentException("Product or client id is bad!");
+            }
         }
 
         saveRating(oldRating);
     }
 
+    /**
+     * Создает объект AdditionalProductInfo, но с 0 рейтингом пользователя
+     * @param productId - идентификатор товара
+     * @param clientId - идентификатор клиента
+     * @return - AdditionalProductInfo
+     */
     @Override
     public AdditionalProductInfo createEmptyAdditonalProductInfo(long productId, long clientId){
         Product product = productService.productById(productId);

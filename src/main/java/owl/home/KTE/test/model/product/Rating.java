@@ -1,5 +1,8 @@
 package owl.home.KTE.test.model.product;
-
+/**
+ * Класс рейтинга
+ * набор product id - client id в нем уникален так как один клиент может оставить одну оценку одному продукту
+ */
 
 import lombok.*;
 import owl.home.KTE.test.model.client.Client;

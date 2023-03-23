@@ -1,5 +1,8 @@
 package owl.home.KTE.test.model.product;
-
+/**
+ * Класс товара(продукта).
+ * Содержит имя товара, описание товара, скидка(если она действует) и стоимость
+ */
 
 import lombok.*;
 
@@ -17,10 +20,19 @@ public class Product implements Serializable {
     private long id;
     @Column(name = "product_name")
     private String name;
+    /**
+     * Цена товара
+     */
     @Column(name = "product_price")
     private double price;
+    /**
+     * Скидка на товар
+     */
     @Column(name = "product_discount")
     private int discount;
+    /**
+     * Описание товара
+     */
     @Column(name = "about_product")
     private String about;
 }

@@ -1,5 +1,8 @@
 package owl.home.KTE.test.model.util;
-
+/**
+ * Класс статистики о клиенте включает в себя:
+ * клиента, количество чеков, сумму стоимости всех чеков, и сумма всех скидок
+ */
 
 import lombok.*;
 import owl.home.KTE.test.model.client.Client;

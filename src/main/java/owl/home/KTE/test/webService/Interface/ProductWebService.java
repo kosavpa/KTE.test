@@ -1,7 +1,8 @@
 package owl.home.KTE.test.webService.Interface;
+/**
+ * Soap веб служба товаров
+ */
 
-
-import owl.home.KTE.test.model.check.Check;
 import owl.home.KTE.test.model.product.Product;
 import owl.home.KTE.test.model.util.*;
 
@@ -15,6 +16,9 @@ import java.util.List;
 
 @WebService(name = "ProductService" ,targetNamespace = "http://kte.test-web-service")
 public interface ProductWebService {
+    /**
+     * @return список товаров
+     */
     @WebResult(name = "Product")
     @RequestWrapper(
             localName = "getAllProductRequest",
@@ -24,6 +28,11 @@ public interface ProductWebService {
             className = "owl.home.KTE.test.webservice.AllProductResponse")
     List<Product> getAllProduct();
 
+    /**
+     * @param productId - идентификатор продукта
+     * @param clientId - идентификатор клиента
+     * @return - информацию о товаре
+     */
     @WebResult(name = "AdditionalProductInfo")
     @RequestWrapper(
             localName = "getAdditionalProductInfoRequest",
@@ -35,6 +44,10 @@ public interface ProductWebService {
             @WebParam(name = "productId") long productId,
             @WebParam(name = "clientId") long clientId);
 
+    /**
+     * @param shopingList - запрос итоговой стоимости товара
+     * @return - ответ итоговой стоимости товаров
+     */
     @WebResult(name = "TotalPriceShopingLists")
     @RequestWrapper(
             localName = "getTotalPriceShopingListsRequest",
@@ -44,6 +57,13 @@ public interface ProductWebService {
             className = "owl.home.KTE.test.webservice.TotalPriceShopingListsResponse")
     TotalPriceShopingListResponse totalPriceShopingLists(@WebParam(name = "ShopingList")List<TotalPriceShopingListRequest> shopingList);
 
+    /**
+     * Оценка товара
+     * @param productId - идентификатор продукта
+     * @param clientId - идентификатор клиента
+     * @param amountStar - количество звезд
+     * @return - информация о продукте
+     */
     @WebResult(name = "FeedBackProduct")
     @RequestWrapper(
             localName = "getFeedBackProductRequest",
@@ -56,6 +76,10 @@ public interface ProductWebService {
             @WebParam(name = "clientId") long clientId,
             @WebParam(name = "amountStar") int amountStar);
 
+    /**
+     * @param productId - идентификатор продукта
+     * @return - статистика продукта
+     */
     @WebResult(name = "ProductStatisctic")
     @RequestWrapper(
             localName = "getProductStatiscticRequest",
@@ -65,6 +89,12 @@ public interface ProductWebService {
             className = "owl.home.KTE.test.webservice.ProductStatiscticResponse")
     StatisticProductResponse productStatisctic(@WebParam(name = "productId") long productId);
 
+    /**
+     * @param clientId - идентификатор клиента
+     * @param totalPrice - итоговая сумма
+     * @param shopingList - список запроса итоговой стоимости товара
+     * @return - чек
+     */
     @WebResult(name = "GenerateCheck")
     @RequestWrapper(
             localName = "getGenerateCheckRequest",

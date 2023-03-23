@@ -1,11 +1,13 @@
 package owl.home.KTE.test.service.Impl;
-
+/**
+ * Имплиментация сервисного слоя товаров для чека
+ */
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import owl.home.KTE.test.model.product.ProductForCheck;
-import owl.home.KTE.test.repo.ShopingListRepository;
+import owl.home.KTE.test.repo.ProductForCheckRepository;
 import owl.home.KTE.test.service.Interface.ProductForCheckService;
 
 import java.util.List;
@@ -15,7 +17,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class ProductForCheckServiceImpl implements ProductForCheckService {
     @Autowired
-    private ShopingListRepository repository;
+    private ProductForCheckRepository repository;
 
     @Override
     public int countByproductId(long productId) {
@@ -24,6 +26,6 @@ public class ProductForCheckServiceImpl implements ProductForCheckService {
 
     @Override
     public List<ProductForCheck> productList(long productId) {
-        return repository.findShopingListByproductId(productId);
+        return repository.findProductForCheckByproductId(productId);
     }
 }

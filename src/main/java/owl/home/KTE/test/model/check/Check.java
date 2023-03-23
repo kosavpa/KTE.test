@@ -1,5 +1,8 @@
 package owl.home.KTE.test.model.check;
-
+/**
+ * Класс Чека содержит дату создания, номер,
+ * список товаров, клиента (покупателя), и итогувую стоимость всего списка товаров с учетом скидок
+ */
 
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
@@ -21,18 +24,33 @@ public class Check implements Serializable {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    /**
+     * Номер чека
+     */
     @Column(name = "number")
     private long number;
+    /**
+     * Дата создания
+     */
     @Temporal(TemporalType.DATE)
     @Column(name = "date")
     private Date date;
+    /**
+     * Список покупок
+     */
     @OneToMany(cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "check_id")
     private Set<ProductForCheck> shoppingList;
+    /**
+     * Клиент
+     */
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "client_id")
     private Client client;
+    /**
+     * Итоговая стоимость
+     */
     @Column(name = "final_price")
     private double finalPrice;
 }

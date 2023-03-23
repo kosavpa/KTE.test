@@ -17,6 +17,10 @@ public interface RatingRepository extends JpaRepository<Rating, Long> {
     List<Rating> findByProductId(long productId);
     Optional<Rating> findByProductIdAndClientId(long productId, long clientId);
 
+    /**
+     * Удаляет рйтинг по id
+     * @param id - id рейтинга
+     */
     @Modifying
     @Query(value = "delete from rating_table where id = :id", nativeQuery = true)
     void deleteRatingById(@Param("id") long id);

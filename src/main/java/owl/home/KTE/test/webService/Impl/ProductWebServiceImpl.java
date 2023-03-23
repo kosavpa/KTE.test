@@ -1,5 +1,7 @@
 package owl.home.KTE.test.webService.Impl;
-
+/**
+ * Имплиментция веб службы продуктов
+ */
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -1,5 +1,7 @@
 package owl.home.KTE.test.service.Impl;
-
+/**
+ * Имплиментация сервисного слоя чеков, некоторые методы могут кидать непроверяемые исключения
+ */
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -45,6 +47,12 @@ public class CheckServiceImpl implements CheckService {
         this.productService = productService;
     }
 
+    /**
+     * Ищет чек по идентификатору. Может бросить RuntimeException, если чека с таким id нет,
+     * с соответствующим сообщением
+     * @param checkId - идентификатор чека
+     * @return - чек
+     */
     @Override
     public Check checkById(long checkId) {
         return repository.findById(checkId).orElseThrow(
@@ -74,6 +82,14 @@ public class CheckServiceImpl implements CheckService {
         return checkById(checkId);
     }
 
+    /**
+     * Создание и сохраниение чека. Перед этими операциями происходит проверка введеной суммы и суммы расчитаной, после идет подсчет
+     * итоговой стоимости с учетом всех скидок и если они превышают 18% устанавливается скидка равноя 18%, ответ возвращается специальным объектом
+     * @param clientId - идентификатор клиента
+     * @param totalPrice - итоговая сумма (в копейках)
+     * @param shopingList - список покупок
+     * @return - объкт чека дляя ответа
+     */
     @Transactional
     @Override
     public CheckForResponce generateCheck(long clientId, double totalPrice, List<TotalPriceShopingListRequest> shopingList) {
@@ -88,7 +104,7 @@ public class CheckServiceImpl implements CheckService {
         if (totalPriceExcludeClientDiscount != totalPrice)
             throw new IllegalArgumentException("Bad total price in request!");
 
-        Set<ProductForCheck> productsForCheck = productForCheckListFromTotalPriceShopingListRequest(shopingList, productService);
+        Set<ProductForCheck> productsForCheck = productForCheckListFromTotalPriceShopingListRequest(shopingList, productMap);
         Client client = clientService.clientById(clientId);
         double priceWhithClientDiscount = priceWithClientDiscount(client, productsForCheck);
 
