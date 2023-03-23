@@ -1,6 +1,6 @@
 # KTE.test
 Test example for KTE company
-# Используемы технологии
+# Используемые технологии
 Spring Boot, spring Data, Spring Web, Spring Web Services, PostgreSQL, ApacheCXF, Lombok.
 # Описание
 ## SOAP:
