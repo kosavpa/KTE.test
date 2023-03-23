@@ -102,20 +102,24 @@ public class RatingServiceImpl implements RatingService {
                 .amountStar(amountStar)
                 .build();
 
-        Rating oldRating = findByProductIdAndClientId(productId, clientId).orElse(newRating);
+        Optional<Rating> byProductIdAndClientId = findByProductIdAndClientId(productId, clientId);
 
-        if (amountStar == 0){
-            if(oldRating == newRating)
-                return;
+        if (byProductIdAndClientId.isPresent()){
+            Rating oldRating = byProductIdAndClientId.get();
 
-            if (deleteRatingById(oldRating.getId())){
-                return;
-            } else {
-                throw new IllegalArgumentException("Product or client id is bad!");
+            if (amountStar == 0){
+                if (deleteRatingById(oldRating.getId())){
+                    return;
+                } else {
+                    throw new IllegalArgumentException("Product or client id is bad!");
+                }
             }
-        }
 
-        saveRating(oldRating);
+            oldRating.setAmountStar(amountStar);
+            saveRating(oldRating);
+        } else {
+            saveRating(newRating);
+        }
     }
 
     /**

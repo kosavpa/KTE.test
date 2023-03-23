@@ -32,14 +32,14 @@ public class MarketApplication {
 	CheckService checkService;
 
 	@Async
-	@Scheduled(fixedRate = 86400000, initialDelay = 5000)
+	@Scheduled(cron = "0 0 * * * *")
 	public void clearAndSetDiscount(){
 		productService.clearAndSetDiscountColumn();
 	}
 
 	@Autowired
 	@Async
-	@Scheduled(fixedRate = 86400000, initialDelay = 5000)
+	@Scheduled(cron = "0 0 * * * *")
 	public void resetSeq(){
 		checkService.resetSequence();
 	}
