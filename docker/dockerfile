@@ -1,0 +1,5 @@
+FROM openjdk:11
+COPY KTE.jar /KTE.jar
+EXPOSE 8080/tcp
+ENV "postgresUrl"="jdbc:postgresql://postgres_db:5432/postgres"
+CMD ["java", "-jar", "/KTE.jar"]
