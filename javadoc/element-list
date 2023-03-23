@@ -1,0 +1,13 @@
+owl.home.KTE.test
+owl.home.KTE.test.controller
+owl.home.KTE.test.model.check
+owl.home.KTE.test.model.client
+owl.home.KTE.test.model.product
+owl.home.KTE.test.model.util
+owl.home.KTE.test.repo
+owl.home.KTE.test.service.Impl
+owl.home.KTE.test.service.Interface
+owl.home.KTE.test.service.util
+owl.home.KTE.test.webService
+owl.home.KTE.test.webService.Impl
+owl.home.KTE.test.webService.Interface

@@ -149,4 +149,21 @@ public class ProductServiceImpl implements ProductService {
                 .discountSum(discountSum)
                 .build();
     }
+
+    /**
+     * Эта функция будет чистить столбец со скидками у товара и устанавливать, новую, случайным образом
+     */
+    @Transactional
+    @Override
+    public void clearAndSetDiscountColumn() {
+        productRepository.clearDiscountColumn();
+        List<Product> all = allProduct();
+
+        Random random = new Random();
+
+        Product product = all.get(random.nextInt(all.size()));
+        product.setDiscount(random.nextInt(6) + 5);
+
+        saveProduct(product);
+    }
 }

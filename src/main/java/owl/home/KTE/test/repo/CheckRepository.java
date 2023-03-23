@@ -26,9 +26,13 @@ public interface CheckRepository extends JpaRepository<Check, Long> {
     @Modifying
     @Query(value = "INSERT INTO check_table " +
             "(\"date\", final_price, number, client_id) " +
-            "VALUES (:date, :price, nextval('ktetest_seq'), :clientId);",
+            "VALUES (:date, :price, nextval('ktetest_seq'), :clientId)",
             nativeQuery = true)
     int saveWithSequence(@Param("date") String date,
                          @Param("price") double price,
                          @Param("clientId")long clientId);
+
+    @Modifying
+    @Query(value = "ALTER SEQUENCE ktetest_seq RESTART WITH 100", nativeQuery = true)
+    void alterSequence();
 }

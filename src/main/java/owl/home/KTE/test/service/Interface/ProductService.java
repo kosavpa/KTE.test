@@ -63,4 +63,9 @@ public interface ProductService {
      * @return - статистика о товаре
      */
     StatisticProductResponse statisticProduct(long productId);
+
+    /**
+     * Обновляет скидку раз в сутки
+     */
+    void clearAndSetDiscountColumn();
 }

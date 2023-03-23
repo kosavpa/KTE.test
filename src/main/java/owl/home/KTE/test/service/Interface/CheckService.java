@@ -49,4 +49,8 @@ public interface CheckService {
      * @return - чек для ответа
      */
     CheckForResponce generateCheck(long clientId, double totalPrice, List<TotalPriceShopingListRequest> shopingList);
+    /**
+     * Обновляет sequencе(сбрасывает в первоначальное значение) раз в сутки
+     */
+    void resetSequence();
 }

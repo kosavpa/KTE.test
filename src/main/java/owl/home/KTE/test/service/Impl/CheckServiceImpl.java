@@ -131,6 +131,15 @@ public class CheckServiceImpl implements CheckService {
         return checkForResponce;
     }
 
+    /**
+     * Сброс последовательности
+     */
+    @Transactional
+    @Override
+    public void resetSequence() {
+        repository.alterSequence();
+    }
+
     public static String createCheckNumberForResponse(long checkNumber) {
         String result = String.valueOf(checkNumber);
 
@@ -140,4 +149,6 @@ public class CheckServiceImpl implements CheckService {
 
         return result;
     }
+
+
 }
