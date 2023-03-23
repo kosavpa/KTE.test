@@ -37,4 +37,4 @@ getProductStatiscticRequest(статистика продукта), getGenerateC
 ## JavaDoc
 В данной папке лежит сгенерированный javadoc. Для просмотра нужно запустить index.html.
 ## Docker
-В данной папке лежат собранный .jar архив, dockerfile и docker-compose.yml. Таким образом для запуска проекта все что нужно - это ввести в вашей cli docker-compose up.
+В данной папке лежат собранный .jar архив, dockerfile и docker-compose.yml. Таким образом, для запуска проекта все что нужно - это ввести в вашей cli docker-compose up.
